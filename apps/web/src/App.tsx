@@ -5,7 +5,6 @@ import MealPicker from "./pages/MealPicker";
 import Configure from "./pages/Configure";
 import Login from "./pages/Login";
 
-
 function App() {
   return (
     <BrowserRouter>
