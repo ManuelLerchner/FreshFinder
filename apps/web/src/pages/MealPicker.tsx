@@ -42,7 +42,7 @@ export default function MealPicker() {
             description="How much time do you want to spend cooking?"
             onSubmit={(cooking_time) => {
               console.log(cooking_time);
-              navigate("/food-selection");
+              navigate("/success");
             }}
           />
         )}

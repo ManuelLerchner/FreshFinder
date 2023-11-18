@@ -3,6 +3,7 @@ import QuestionCard from "../components/QuestionCard";
 import RecommendedFood from "../components/RecommendedFood";
 import { mergePreferences } from "../util/updatePreferences";
 import TagCard from "../components/TagCard";
+import { useNavigate } from "react-router-dom";
 
 const questionsDB = [
   {
@@ -23,6 +24,8 @@ export default function SelectionPage() {
   const [userPreferences, setUserPreferences] = useState<{
     [key: string]: number;
   }>({});
+
+  const navigator = useNavigate();
 
   useEffect(() => {
     console.log(userPreferences);
@@ -79,10 +82,10 @@ export default function SelectionPage() {
         <button
           className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full"
           onClick={() => {
-            console.log("clicked");
+            navigator("/success");
           }}
         >
-          Accept Recommendation
+          Order recommended food
         </button>
       </div>
     </div>
