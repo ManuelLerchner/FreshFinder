@@ -1,6 +1,4 @@
 import React from "react";
-import QuestionCard from "../components/QuestionCard";
-import Card from "../components/Card";
 import AmountCard from "../components/AmountCard";
 import { useNavigate } from "react-router-dom";
 

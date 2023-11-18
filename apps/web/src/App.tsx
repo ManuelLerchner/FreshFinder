@@ -4,7 +4,6 @@ import MainLayout from "./layouts/MainLayout";
 import MealPicker from "./pages/MealPicker";
 import Configure from "./pages/Configure";
 import Login from "./pages/Login";
-import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import SelectionPage from "./pages/SelectionPage";
 

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Card from "./Card";
+import React, { useRef } from "react";
 import TinderCard from "react-tinder-card";
 
 export default function QuestionCard({
@@ -13,37 +12,39 @@ export default function QuestionCard({
   onPositive: () => void;
   onNegative: () => void;
 }) {
+  const ref = useRef(null);
+
   return (
-    <div className="max-w-full">
-      <TinderCard
-        preventSwipe={["up", "down"]}
-        onCardLeftScreen={(dir) => {
-          if (dir === "left") {
-            onNegative();
-          } else if (dir === "right") {
-            onPositive();
-          }
-        }}
-      >
-        <Card>
-          <h1 className="text-2xl font-bold">{question}</h1>
-          <img className="w-72 rounded-md" src={imageUri} />
-          <div className="w-full flex mt-4 justify-around gap-2">
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded-lg w-16"
-              onClick={onNegative}
-            >
-              No
-            </button>
-            <button
-              className="bg-green-500 text-white px-2 py-1 rounded-lg w-16"
-              onClick={onPositive}
-            >
-              Yes
-            </button>
-          </div>
-        </Card>
-      </TinderCard>
-    </div>
+    <TinderCard
+      ref={ref}
+      className="absolute w-full"
+      preventSwipe={["up", "down"]}
+      onCardLeftScreen={(dir) => {
+        if (dir === "left") {
+          onNegative();
+        } else if (dir === "right") {
+          onPositive();
+        }
+      }}
+    >
+      <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center gap-2">
+        <h1 className="text-2xl font-bold">{question}</h1>
+        <img className="w-9/12 rounded-md" src={imageUri} alt={question} />
+        <div className="flex mt-1 justify-around gap-2 items-center">
+          <button
+            className="bg-red-500 text-white px-2 py-1 rounded-lg w-16 hover:scale-[102%]"
+            onClick={() => (ref.current as any).swipe("left")}
+          >
+            No
+          </button>
+          <button
+            className="bg-green-500 text-white px-2 py-1 rounded-lg w-16 hover:scale-[102%]"
+            onClick={() => (ref.current as any).swipe("right")}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    </TinderCard>
   );
 }

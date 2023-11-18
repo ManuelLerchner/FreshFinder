@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "./Card";
-import { highlightText } from "../util/highlightText";
 
 export default function AmountCard({
   title,
@@ -21,7 +20,8 @@ export default function AmountCard({
       <div className="flex flex-row items-center my-4 gap-2">
         {options.map((option) => (
           <button
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
+            key={option}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
             onClick={() => {
               onSubmit(option);
             }}
