@@ -17,7 +17,7 @@ export default function QuestionCard({
   return (
     <TinderCard
       ref={ref}
-      className="absolute w-full"
+      className="absolute"
       preventSwipe={["up", "down"]}
       onCardLeftScreen={(dir) => {
         if (dir === "left") {
@@ -29,7 +29,11 @@ export default function QuestionCard({
     >
       <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center gap-2">
         <h1 className="text-2xl font-bold">{question}</h1>
-        <img className="w-9/12 rounded-md" src={imageUri} alt={question} />
+        <img
+          className="w-9/12 max-w-xl rounded-md"
+          src={imageUri}
+          alt={question}
+        />
         <div className="flex mt-1 justify-around gap-2 items-center">
           <button
             className="bg-red-500 text-white px-2 py-1 rounded-lg w-16 hover:scale-[102%]"
