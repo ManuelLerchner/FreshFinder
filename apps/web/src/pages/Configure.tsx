@@ -64,7 +64,7 @@ export default function Configure() {
               console.log(selected);
             }}
             onNext={() => {
-              navigate("/");
+              navigate("/meal-picker");
             }}
           />
         )}
