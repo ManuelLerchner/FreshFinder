@@ -1,37 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Card from "./Card";
+import { highlightText } from "../util/highlightText";
 
 export default function SelectionCard({
   title,
   description,
   options,
-  selected,
   onChange,
+  onNext,
 }: {
   title: string;
   description: string;
   options: string[];
-  selected: string;
-  onChange: (selected: string) => void;
+  onChange: (options: string[]) => void;
+  onNext: () => void;
 }) {
+  const [search, setSearch] = useState<string>("");
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
+
+  useEffect(() => {
+    setFilteredOptions(
+      options.filter((option) =>
+        option.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [search, options]);
+
   return (
-    <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center">
-      <h1 className="text-2xl font-bold">{title}</h1>
+    <Card>
+      <h1 className="text-2xl font-bold mb-2">{title}</h1>
       <p className="text-lg">{description}</p>
 
+      <input
+        type="text"
+        className="border-2 border-gray-500 rounded-lg px-2 py-1"
+        placeholder="Search"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       <ul className="flex flex-col items-start my-4 space-y-2">
-        {options.map((option) => (
+        {filteredOptions.map((option) => (
           <li key={option}>
             <label className="text-xl font-bold">
               <input
-                type="radio"
-                checked={selected === option}
-                onChange={() => onChange(option)}
+                type="checkbox"
+                className="mr-2"
+                name={title}
+                value={option}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelected([...selected, option]);
+                  } else {
+                    setSelected(selected.filter((o) => o !== option));
+                  }
+                  onChange(selected);
+                }}
               />
-              {option}
+              {highlightText(option, search)}
             </label>
           </li>
         ))}
       </ul>
-    </div>
+
+      <button
+        className="bg-green-600 text-white px-2 py-1 rounded-lg self-end"
+        onClick={() => {
+          onNext();
+        }}
+      >
+        Next
+      </button>
+    </Card>
   );
 }

@@ -8,6 +8,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <div className=" h-screen overflow-hidden">
+      <App />
+    </div>
   </React.StrictMode>
 );
