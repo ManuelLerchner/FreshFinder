@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../components/SupabaseClient";
 
-
 export default function StartSession() {
   const navigate = useNavigate();
   return (
@@ -13,7 +12,7 @@ export default function StartSession() {
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
-          const roomOne = supabase.channel('room1') // set your topic here
+          const roomOne = supabase.channel("room1"); // set your topic here
           // navigate("/meal-picker");
         }}
       >
@@ -23,16 +22,16 @@ export default function StartSession() {
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
-          const channel = supabase.channel('room1')
+          const channel = supabase.channel("room1");
           channel
-            .on('presence', { event: 'sync' }, () => {
-              console.log('Synced presence state: ', channel.presenceState())
+            .on("presence", { event: "sync" }, () => {
+              console.log("Synced presence state: ", channel.presenceState());
             })
             .subscribe(async (status) => {
-              if (status === 'SUBSCRIBED') {
-                await channel.track({ online_at: new Date().toISOString() })
+              if (status === "SUBSCRIBED") {
+                await channel.track({ online_at: new Date().toISOString() });
               }
-            })
+            });
           // navigate("/meal-picker");
         }}
       >
