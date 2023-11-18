@@ -21,20 +21,17 @@ export default function Login() {
         data: { user },
       } = await supabase.auth.getUser();
       if(user && user.id) {
-        console.log("id: ", user.id)
         localUser.uuid = user.id;
-        const {data}=await supabase.from("Tags").select("category");
-        console.log("data: ", data);
-        const { data: preferencesData } = await supabase
+        const { data : preferencesData } = await supabase
           .from("Users")
           .select("hardPreference")
-          .eq("id", localUser.uuid);
-          if (preferencesData && preferencesData.length > 0) {
-            console.log("preferencesData: ", preferencesData);
-            localUser.hardPreferences = preferencesData[0].hardPreference;
-          } else {
-            console.error("Could not retrieve preferences");
-          }
+          .eq("id", localUser.uuid)
+        if (preferencesData && preferencesData.length > 0) {
+          console.log("preferencesData: ", preferencesData[0].hardPreference.Tags);
+          localUser.hardPreferences = preferencesData[0].hardPreference.Tags;
+        } else {
+          console.error("Could not retrieve preferences");
+        }
         navigate("/configure");
       } else 
         console.error("Could not retrieve UUID");
