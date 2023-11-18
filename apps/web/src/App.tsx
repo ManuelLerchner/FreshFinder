@@ -10,11 +10,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="/" element={<MealPicker />} />
+          <Route path="/" element={<Login />} />
           <Route path="/configure" element={<Configure />} />
-        </Route>
-        <Route path="/auth" element={<MainLayout />}>
-          <Route path="login" element={<Login />} />
+          <Route path="/mealPicker" element={<MealPicker />} />
         </Route>
       </Routes>
     </BrowserRouter>
