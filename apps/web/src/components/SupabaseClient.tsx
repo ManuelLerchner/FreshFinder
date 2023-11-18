@@ -6,7 +6,10 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Add editable variable for supabase client uuid
-export const localUser = {
+export const localUser : {uuid:string, hardPreferences:number[], userPreferences:{
+    [key:string]:number
+}} = {
     uuid: "",
-    hardPreferences: []
+    hardPreferences: [],
+    userPreferences: {}
 }

@@ -15,7 +15,6 @@ export async function requestRecommendations(
   next_tags: string[]; // at least two params so that the next cards can be generated
 }> {
   console.log(hard_requirements);
-
   const { data, error } = await supabase
     .from("RecipeTags")
     .select("TagId, RecipeId, Recipes(name, recipeImages), Tags(category)")
