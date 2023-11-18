@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import SelectionCard from "../components/SelectionCard";
+import QuestionCard from "../components/QuestionCard";
+import FocusComponent from "../layouts/FocusComponent";
+import { useNavigate } from "react-router-dom";
 
 export default function Configure() {
-  return (
-    <div className="flex flex-col items-center my-4">
-      <h1 className="text-2xl font-bold">
-        First time use: set Hard and soft restrictiions
-      </h1>
+  const [stage, setStage] = useState(0);
+  const navigate = useNavigate();
 
-      <div className="flex flex-col items-center my-4">
+  return (
+    <div className="flex flex-col items-center justify-center my-4 h-full">
+      {stage === 0 && (
+        <FocusComponent>
+          <QuestionCard
+            question="Do you have allergies?"
+            imageUri="https://efbcogj6hn3.exactdn.com/wp-content/uploads/2023/01/GettyImages-1333930513-2-1024x633.jpg?strip=all&lossy=1&ssl=1"
+            onPositive={() => {
+              setStage(1);
+            }}
+            onNegative={() => {
+              setStage(2);
+            }}
+          />
+        </FocusComponent>
+      )}
+
+      {stage === 1 && (
         <SelectionCard
-          title="Hard Restrictions"
-          description="Select all that apply"
+          title="Allergies"
+          description="Select all your allergies"
           options={[
             "Peanuts",
             "Tree Nuts",
@@ -22,12 +39,37 @@ export default function Configure() {
             "Fish",
             "Shellfish",
           ]}
-          selected="Peanuts"
           onChange={(selected) => {
             console.log(selected);
           }}
+          onNext={() => {
+            setStage(2);
+          }}
         />
-      </div>
+      )}
+
+      {stage === 2 && (
+        <SelectionCard
+          title="Disliked Foods"
+          description="Select all the foods you dislike"
+          options={[
+            "Onions",
+            "Tomatoes",
+            "Peppers",
+            "Mushrooms",
+            "Broccoli",
+            "Carrots",
+            "Celery",
+            "Spinach",
+          ]}
+          onChange={(selected) => {
+            console.log(selected);
+          }}
+          onNext={() => {
+            navigate("/");
+          }}
+        />
+      )}
     </div>
   );
 }

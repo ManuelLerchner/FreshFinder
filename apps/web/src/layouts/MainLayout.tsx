@@ -4,10 +4,10 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   return (
-    <div className="flex flex-col h-screen overflow-y-auto">
+    <div className="flex flex-col h-screen">
       <TopBar />
 
-      <main className="flex flex-col flex-1 overflow-y-auto bg-gray-200">
+      <main className="flex flex-col flex-1 bg-gray-200">
         <Outlet />
       </main>
     </div>
