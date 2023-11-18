@@ -10,8 +10,8 @@ export default function Configure() {
 
   return (
     <div className="flex flex-col items-center justify-center my-4 h-full">
-      {stage === 0 && (
-        <FocusComponent>
+      <FocusComponent>
+        {stage === 0 && (
           <QuestionCard
             question="Do you have allergies?"
             imageUri="https://efbcogj6hn3.exactdn.com/wp-content/uploads/2023/01/GettyImages-1333930513-2-1024x633.jpg?strip=all&lossy=1&ssl=1"
@@ -22,54 +22,54 @@ export default function Configure() {
               setStage(2);
             }}
           />
-        </FocusComponent>
-      )}
+        )}
 
-      {stage === 1 && (
-        <SelectionCard
-          title="Allergies"
-          description="Select all your allergies"
-          options={[
-            "Peanuts",
-            "Tree Nuts",
-            "Dairy",
-            "Eggs",
-            "Wheat",
-            "Soy",
-            "Fish",
-            "Shellfish",
-          ]}
-          onChange={(selected) => {
-            console.log(selected);
-          }}
-          onNext={() => {
-            setStage(2);
-          }}
-        />
-      )}
+        {stage === 1 && (
+          <SelectionCard
+            title="Allergies"
+            description="Select all your allergies"
+            options={[
+              "Peanuts",
+              "Tree Nuts",
+              "Dairy",
+              "Eggs",
+              "Wheat",
+              "Soy",
+              "Fish",
+              "Shellfish",
+            ]}
+            onChange={(selected) => {
+              console.log(selected);
+            }}
+            onNext={() => {
+              setStage(2);
+            }}
+          />
+        )}
 
-      {stage === 2 && (
-        <SelectionCard
-          title="Disliked Foods"
-          description="Select all the foods you dislike"
-          options={[
-            "Onions",
-            "Tomatoes",
-            "Peppers",
-            "Mushrooms",
-            "Broccoli",
-            "Carrots",
-            "Celery",
-            "Spinach",
-          ]}
-          onChange={(selected) => {
-            console.log(selected);
-          }}
-          onNext={() => {
-            navigate("/");
-          }}
-        />
-      )}
+        {stage === 2 && (
+          <SelectionCard
+            title="Disliked Foods"
+            description="Select all the foods you dislike"
+            options={[
+              "Onions",
+              "Tomatoes",
+              "Peppers",
+              "Mushrooms",
+              "Broccoli",
+              "Carrots",
+              "Celery",
+              "Spinach",
+            ]}
+            onChange={(selected) => {
+              console.log(selected);
+            }}
+            onNext={() => {
+              navigate("/");
+            }}
+          />
+        )}
+      </FocusComponent>
     </div>
   );
 }
