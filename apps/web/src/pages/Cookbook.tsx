@@ -42,7 +42,9 @@ export default function Cookbook() {
       </div>
 
       <div className="flex flex-col items-center justify-center my-2">
-        <h2 className="text-md font-bold">Start a new cooking session:</h2>
+        <h2 className="text-md font-bold">
+          Start a new cooking session by selecting one of your recipes.
+        </h2>
 
         <div className="flex flex-row justify-center items-center my-8">
           {recipes.map((recipe) => (
@@ -59,7 +61,7 @@ export default function Cookbook() {
                       navigate("/cooking/"+recipeID);
                     }}
                   >
-                    Join
+                    Create Session
                   </button>
                 </div>
               }
