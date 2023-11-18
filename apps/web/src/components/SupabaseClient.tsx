@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export const localUser : {uuid:string, hardPreferences:number[], userPreferences:{
     [key:string]:number
 }} = {
-    uuid: "",
+    uuid: "bca2de1f-274b-43c2-be8e-742e16660075",
     hardPreferences: [],
     userPreferences: {}
 }
