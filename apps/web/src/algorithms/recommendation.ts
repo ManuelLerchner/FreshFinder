@@ -22,6 +22,6 @@ export async function requestRecommendations(
       url: "https://www.chefkoch.de/rezepte/1360101240528747/Huehnchen-mit-Reis.html",
       tags: ["Hünchen", "Reis", "Gemüse"],
     },
-    next_tags: ["vegan", "spicy", "sweet"],
+    next_tags: ["vegan", "spicy", "keto"],
   };
 }
