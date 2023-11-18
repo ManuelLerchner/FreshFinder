@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import SelectionCard from "../components/SelectionCard";
 import QuestionCard from "../components/QuestionCard";
-import FocusComponent from "../layouts/FocusComponent";
 import { useNavigate } from "react-router-dom";
 
 export default function Configure() {
@@ -10,7 +9,7 @@ export default function Configure() {
 
   return (
     <div className="flex flex-col items-center justify-center my-4 h-full">
-      <FocusComponent>
+      <div className="relative flex h-96 w-full justify-center items-center">
         {stage === 0 && (
           <QuestionCard
             question="Do you have allergies?"
@@ -69,7 +68,7 @@ export default function Configure() {
             }}
           />
         )}
-      </FocusComponent>
+      </div>
     </div>
   );
 }
