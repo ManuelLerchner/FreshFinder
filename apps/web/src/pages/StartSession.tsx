@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { localUser, supabase } from "../components/SupabaseClient";
 import { RealtimeChannel } from "@supabase/supabase-js";
 
-
 export default function StartSession() {
   // Simple function to log any messages we receive
   function adaptClientData( payload: any) {
