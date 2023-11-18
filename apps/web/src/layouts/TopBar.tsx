@@ -10,6 +10,13 @@ export default function TopBar() {
             Fresh Finder
           </a>
         </div>
+        <div className="flex items-between"> 
+          <div className="flex items-center">
+            <a href="/join_session" className="mr-4">
+              Join Session
+            </a>
+          </div>
+        </div>
         <div className="flex items-center">
           <a href="/cookbook" className="mr-4 underline font-semibold">
             My Cookbook
@@ -29,6 +36,7 @@ export default function TopBar() {
             </div>
           </div>
         </div>
+        
       </div>
     </header>
   );

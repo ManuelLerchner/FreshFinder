@@ -57,7 +57,8 @@ export default function Cookbook() {
                   <button
                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
                     onClick={() => {
-                      navigate("/cooking");
+                      const recipeID = 0;
+                      navigate("/cooking/"+recipeID);
                     }}
                   >
                     Create Session

@@ -8,13 +8,9 @@ import { createClient } from "@supabase/supabase-js";
 import SelectionPage from "./pages/SelectionPage";
 import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
-import StartSession from "./pages/StartSession";
+import JoinSession from "./pages/JoinSession";
 import Cookbook from "./pages/Cookbook";
 
-const supabase = createClient(
-  "https://qtribxnypykjlyjswlno.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0cmlieG55cHlramx5anN3bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAyNjk4MjQsImV4cCI6MjAxNTg0NTgyNH0.14IgLqK90KonabGozsinPI29MkLWBtkWCffC3NJcSMw"
-);
 
 function App() {
   return (
@@ -25,9 +21,9 @@ function App() {
           <Route path="/configure" element={<Configure />} />
           <Route path="/meal-picker" element={<MealPicker />} />
           <Route path="/food-selection" element={<SelectionPage />} />
-          <Route path="/cooking" element={<Cooking />} />
+          <Route path="/cooking/:recipeID" element={<Cooking />} />
+          <Route path="/join_session" element={<JoinSession />} />
           <Route path="/success" element={<OrderSuccesfull />} />
-          <Route path="/start_session" element={<StartSession />} />
           <Route path="/cookbook" element={<Cookbook />} />
           <Route
             path="*"
