@@ -6,11 +6,10 @@ import { RealtimeChannel } from "@supabase/supabase-js";
 export default function JoinSession() {
 
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [sessionID, setsessionID] = useState("");
 
   // Simple function to log any messages we receive
-  function adaptClientData( payload: any) {
-   const {uuid, hardPreference, userPreferences} = payload.payload.localUserData
+  function updateRecipeSteps( payload: any) {
    console.log(payload)
   }
 
@@ -21,31 +20,31 @@ export default function JoinSession() {
       <input
         type="text"
         className="border-2 border-gray-500 rounded-lg px-2 py-1"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        defaultValue={Math.random()}
+        value={sessionID}
+        onChange={(e) => setsessionID(e.target.value)}
         placeholder="Enter Session ID"
       />
 
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
-          const channel = supabase.channel(username)
-          // channel.subscribe((status) => {
-          //   if (status !== 'SUBSCRIBED') {
-          //     return null;
-          //   }
-          //   channel.send({
-          //     type: 'broadcast',
-          //     event: 'test',
-          //     payload: { localUserData: localUser },
-          //   });
-          // });
+          console.log("Joining session: ", sessionID);
+          const channel = supabase.channel(sessionID)
+          // add on presence listener
+          const userStatus = {
+            cmd: 'RequestUpdateSteps',
+          }
+          channel.subscribe(async (status) => {
+            if (status !== 'SUBSCRIBED') { return }
+          
+            const presenceTrackStatus = await channel.track(userStatus)
+            console.log(presenceTrackStatus)
+          })
           channel.on(
             'broadcast',
-            { event: 'test' },
-            (payload) => adaptClientData(payload)
-          ).subscribe()
+            { event: 'updateSteps' },
+            (payload) => updateRecipeSteps(payload)
+          )
         }}
       >
         Join Session...

@@ -8,6 +8,21 @@ export default function Cooking() {
 
   function adaptClientData(payload: any) {
     // Adapt the client data here
+       
+  }
+
+  function startSynchronisation() {
+    const channel = supabase.channel(sessionID);
+    channel.subscribe((status) => {
+            if (status !== 'SUBSCRIBED') {
+              return null;
+            }
+            channel.send({
+              type: 'broadcast',
+              event: 'updateSteps',
+              payload: { recipeID: recipeID },
+            });
+          });
   }
 
   function getRandomInt(max: number) {
@@ -20,15 +35,8 @@ export default function Cooking() {
     const channel = supabase.channel(sessionID);
     // Add a listener until someone joins the session
     channel
-      .on('presence', { event: 'sync' }, () => {
-        const newState = channel.presenceState()
-        console.log('sync', newState)
-      })
       .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        console.log('join', key, newPresences)
-      })
-      .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
-        console.log('leave', key, leftPresences)
+        startSynchronisation();
       })
       .subscribe()
   }, []);
