@@ -137,9 +137,13 @@ export default function SelectionPage() {
             <RecommendedFood
               name={recommendedFood.title}
               image={recommendedFood.url}
-              body={recommendedFood.tags.map((tag) => (
-                <TagCard key={tag} tagname={tag} />
-              ))}
+              body={
+                <div className="flex flex-wrap gap-2 justify-start items-center">
+                  {recommendedFood.tags.map((tag) => (
+                    <TagCard key={tag} tagname={tag} />
+                  ))}
+                </div>
+              }
               onDiscard={() => {}}
             />
 

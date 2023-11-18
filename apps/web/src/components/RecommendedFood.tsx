@@ -29,7 +29,7 @@ export default function RecommendedFood({
         />
         <div className="flex flex-col items-start justify-around mx-4 p-2">
           <h1 className="text-2xl font-bold underline mb-2">{name}</h1>
-          <div className="flex flex-row flex-wrap gap-2">{body}</div>
+          <div className="w-full">{body}</div>
         </div>
       </div>
     </div>
