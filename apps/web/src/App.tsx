@@ -8,12 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 import SelectionPage from "./pages/SelectionPage";
 import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
-import StartSession from "./pages/StartSession";
-
-const supabase = createClient(
-  "https://qtribxnypykjlyjswlno.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0cmlieG55cHlramx5anN3bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAyNjk4MjQsImV4cCI6MjAxNTg0NTgyNH0.14IgLqK90KonabGozsinPI29MkLWBtkWCffC3NJcSMw"
-);
+import JoinSession from "./pages/JoinSession";
 
 function App() {
   return (
@@ -26,7 +21,7 @@ function App() {
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking" element={<Cooking />} />
           <Route path="/success" element={<OrderSuccesfull />} />
-          <Route path="/start_session" element={<StartSession />} />
+          <Route path="/join_session" element={<JoinSession />} />
           <Route
             path="*"
             element={
