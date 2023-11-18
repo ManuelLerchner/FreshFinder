@@ -15,12 +15,22 @@ export async function requestRecommendations(
   next_tags: string[]; // at least two params so that the next cards can be generated
 }> {
   console.log(hard_requirements);
-  const { data, error } = await supabase
+  let queryData: any = null;
+  let error: any = null;
+  if(!hard_requirements || hard_requirements.length === 0) {
+    const { data, error } = await supabase
+    .from("RecipeTags")
+    .select("TagId, RecipeId, Recipes(name, recipeImages), Tags(category)");
+    queryData = data;
+  }else{
+    const { data, error } = await supabase
     .from("RecipeTags")
     .select("TagId, RecipeId, Recipes(name, recipeImages), Tags(category)")
     .not("TagId", "in", "(" + hard_requirements.join(",") + ")");
+    queryData = data;    
+  }
 
-  if (!data) {
+  if (!queryData || queryData.length === 0) {
     return {
       recomended_food: {
         title: "None",
@@ -32,7 +42,7 @@ export async function requestRecommendations(
   }
 
   //TODO implement the algorithm to find the best recipe
-  const best_recipe = data[0];
+  const best_recipe = queryData[0];
 
   //TODO implement the algorithm to find the optimum tags to split the search space
   const next_tags = ["vegan", "spicy", "keto"];
