@@ -15,6 +15,7 @@ export default function SelectionPage() {
   const [swipeCount, setSwipeCount] = useState(0);
 
   const [recommendedFood, setRecommendedFood] = useState<{
+    RecipeId: number;
     title: string;
     url: string;
     tags: string[];
@@ -48,6 +49,18 @@ export default function SelectionPage() {
     }));
 
     setQuestions(question);
+  };
+
+  const placeOrder = async () => {
+    console.log(localUser)
+    const { data, error } = await supabase.from("Orders").insert([
+      {
+        id: localUser.uuid,
+        RecipeId: recommendedFood!.RecipeId,
+      },
+    ]);
+
+    console.log(data, error);
   };
 
   useEffect(() => {
@@ -130,7 +143,8 @@ export default function SelectionPage() {
 
             <button
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full"
-              onClick={() => {
+              onClick={async () => {
+                await placeOrder();
                 navigator("/success");
               }}
             >

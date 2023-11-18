@@ -16,7 +16,7 @@ export async function requestRecommendations(
   }
 ): Promise<{
   recomended_food: {
-    //data of the currently best food
+    RecipeId: number;
     title: string;
     url: string;
     tags: string[];
@@ -53,6 +53,7 @@ export async function requestRecommendations(
   if (!queryData || queryData.length === 0) {
     return {
       recomended_food: {
+        RecipeId: 0,
         title: "None",
         url: "https://cdni.iconscout.com/illustration/premium/thumb/no-data-found-8867280-7265556.png",
         tags: ["Error"],
@@ -63,6 +64,7 @@ export async function requestRecommendations(
 
   const aggregatedData: {
     [key: string]: {
+      RecipeId: number;
       name: string;
       recipeUrl: string;
       tags: string[];
@@ -72,6 +74,7 @@ export async function requestRecommendations(
   for (const entry of queryData) {
     if (!aggregatedData[entry.RecipeId]) {
       aggregatedData[entry.RecipeId] = {
+        RecipeId: entry.RecipeId,
         name: entry.Recipes.name,
         recipeUrl: entry.Recipes.recipeImages.images[0],
         tags: [entry.Tags.category],
@@ -130,6 +133,7 @@ export async function requestRecommendations(
 
   return {
     recomended_food: {
+      RecipeId: best_recipe.RecipeId,
       title: best_recipe.name,
       url: best_recipe.recipeUrl,
       tags: best_recipe.tags,
