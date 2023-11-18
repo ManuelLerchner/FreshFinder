@@ -29,7 +29,8 @@ export default function Login() {
         if (preferencesData && preferencesData.length > 0) {
           console.log("preferencesData: ", preferencesData[0].hardPreference.Tags);
           localUser.hardPreferences = preferencesData[0].hardPreference.Tags;
-          navigate("/mealPicker");
+          // navigate("/mealPicker");
+          navigate("/configure");
         } else {
           navigate("/configure");
           console.error("Could not retrieve preferences");
