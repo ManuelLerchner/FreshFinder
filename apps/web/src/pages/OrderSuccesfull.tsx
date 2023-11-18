@@ -11,7 +11,7 @@ export default function OrderSuccesfull() {
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
-          navigate("/meal-picker");
+          navigate("/start_session");
         }}
       >
         Order more food
