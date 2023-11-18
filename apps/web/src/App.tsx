@@ -8,6 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 import SelectionPage from "./pages/SelectionPage";
 import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
+import StartSession from "./pages/StartSession";
 
 const supabase = createClient(
   "https://qtribxnypykjlyjswlno.supabase.co",
@@ -25,6 +26,7 @@ function App() {
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking" element={<Cooking />} />
           <Route path="/success" element={<OrderSuccesfull />} />
+          <Route path="/start_session" element={<StartSession />} />
           <Route
             path="*"
             element={
