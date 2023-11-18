@@ -22,8 +22,8 @@ function App() {
           <Route path="/meal-picker" element={<MealPicker />} />
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking/:recipeID" element={<Cooking />} />
-          <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/join_session" element={<JoinSession />} />
+          <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/cookbook" element={<Cookbook />} />
           <Route
             path="*"
