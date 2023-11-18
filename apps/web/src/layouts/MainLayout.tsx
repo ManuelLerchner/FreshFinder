@@ -7,7 +7,7 @@ export default function MainLayout() {
     <div className="flex flex-col h-screen">
       <TopBar />
 
-      <main className="flex flex-col flex-1 bg-gray-200">
+      <main className="flex flex-col flex-1 bg-gray-200 p-4">
         <Outlet />
       </main>
     </div>
