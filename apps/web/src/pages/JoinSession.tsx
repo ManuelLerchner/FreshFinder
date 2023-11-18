@@ -3,12 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { localUser, supabase } from "../components/SupabaseClient";
 import { RealtimeChannel } from "@supabase/supabase-js";
 
-<<<<<<< HEAD:apps/web/src/pages/JoinSession.tsx
-
 export default function JoinSession() {
-=======
-export default function StartSession() {
->>>>>>> origin/web:apps/web/src/pages/StartSession.tsx
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
