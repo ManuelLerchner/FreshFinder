@@ -52,7 +52,7 @@ export default function SelectionPage() {
   };
 
   const placeOrder = async () => {
-    console.log(localUser)
+    console.log(localUser);
     const { data, error } = await supabase.from("Orders").insert([
       {
         id: localUser.uuid,
@@ -137,7 +137,9 @@ export default function SelectionPage() {
             <RecommendedFood
               name={recommendedFood.title}
               image={recommendedFood.url}
-              tags={recommendedFood.tags}
+              body={recommendedFood.tags.map((tag) => (
+                <TagCard key={tag} tagname={tag} />
+              ))}
               onDiscard={() => {}}
             />
 

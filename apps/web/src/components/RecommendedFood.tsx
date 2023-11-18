@@ -4,12 +4,12 @@ import TagCard from "./TagCard";
 export default function RecommendedFood({
   name,
   image,
-  tags,
+  body,
   onDiscard,
 }: {
   name: string;
   image: string;
-  tags: string[];
+  body: React.ReactNode;
   onDiscard: () => void;
 }) {
   return (
@@ -29,11 +29,7 @@ export default function RecommendedFood({
         />
         <div className="flex flex-col items-start justify-around mx-4 p-2">
           <h1 className="text-2xl font-bold underline mb-2">{name}</h1>
-          <div className="flex flex-row flex-wrap gap-2">
-            {tags.map((tag) => (
-              <TagCard key={tag} tagname={tag} />
-            ))}
-          </div>
+          <div className="flex flex-row flex-wrap gap-2">{body}</div>
         </div>
       </div>
     </div>

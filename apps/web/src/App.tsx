@@ -9,6 +9,7 @@ import SelectionPage from "./pages/SelectionPage";
 import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
 import StartSession from "./pages/StartSession";
+import Cookbook from "./pages/Cookbook";
 
 const supabase = createClient(
   "https://qtribxnypykjlyjswlno.supabase.co",
@@ -27,6 +28,7 @@ function App() {
           <Route path="/cooking" element={<Cooking />} />
           <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/start_session" element={<StartSession />} />
+          <Route path="/cookbook" element={<Cookbook />} />
           <Route
             path="*"
             element={
