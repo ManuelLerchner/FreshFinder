@@ -9,7 +9,7 @@ import { localUser, supabase } from "../components/SupabaseClient";
 
 export default function SelectionPage() {
   const [questions, setQuestions] = useState<
-    { question: string; imageUri: string; categories: string[] }[]
+    { question: string; imageUri: string; categories: string[] }[] | null
   >([]);
 
   const [swipeCount, setSwipeCount] = useState(0);
@@ -25,7 +25,7 @@ export default function SelectionPage() {
     setSwipeCount(swipeCount + 1);
 
     if (swipeCount >= 5) {
-      setQuestions([]);
+      setQuestions(null);
       return;
     }
 
@@ -73,7 +73,7 @@ export default function SelectionPage() {
     <div className="flex flex-col items-center justify-center my-4 h-full">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="relative flex h-96 w-full justify-center items-center">
-          {questions.map((question) => (
+          {questions?.map((question) => (
             <QuestionCard
               key={question.question}
               question={"Do you like " + question.question + " food?"}
@@ -106,7 +106,7 @@ export default function SelectionPage() {
               }}
             />
           ))}
-          {questions.length === 0 && (
+          {questions === null && (
             <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center gap-2">
               <h1 className="text-2xl font-bold">Thats it!</h1>
               <p className="text-lg">
@@ -138,7 +138,7 @@ export default function SelectionPage() {
               name={recommendedFood.title}
               image={recommendedFood.url}
               body={
-                <div className="flex flex-wrap gap-2 justify-start items-center">
+                <div className="flex flex-wrap gap-2 justify-start items-center max-h-40   overflow-y-auto">
                   {recommendedFood.tags.map((tag) => (
                     <TagCard key={tag} tagname={tag} />
                   ))}
