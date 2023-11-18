@@ -1,16 +1,42 @@
 import React, { useState } from "react";
-import { supabase } from "../components/SupabaseClient";
+import { supabase, localUser } from "../components/SupabaseClient";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
-    // const { error } = await supabase.auth.signIn({
-    //   email: username,
-    //   password: password,
-    // });
-    // if (error) console.error(error);
+    // Write Login Code here using the Supabase Client
+    const { error } = await supabase.auth.signInWithPassword({
+      email: username,
+      password: password,
+    });
+    if (error) console.error(error)
+    else {
+      console.log("logged in");
+      // set localUser uuid
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if(user && user.id) {
+        localUser.uuid = user.id;
+        const { data : preferencesData } = await supabase
+          .from("Users")
+          .select("hardPreference")
+          .eq("id", localUser.uuid)
+        if (preferencesData && preferencesData.length > 0) {
+          console.log("preferencesData: ", preferencesData[0].hardPreference.Tags);
+          localUser.hardPreferences = preferencesData[0].hardPreference.Tags;
+          navigate("/mealPicker");
+        } else {
+          navigate("/configure");
+          console.error("Could not retrieve preferences");
+        }
+      } else 
+        console.error("Could not retrieve UUID");
+    }
   };
 
   return (
