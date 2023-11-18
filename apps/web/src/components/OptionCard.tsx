@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
 
-export default function AmountCard({
+export default function OptionCard<T extends React.ReactNode>({
   title,
   description,
   options,
@@ -9,8 +9,8 @@ export default function AmountCard({
 }: {
   title: string;
   description: string;
-  options: number[];
-  onSubmit: (num: number) => void;
+  options: T[];
+  onSubmit: (num: T) => void;
 }) {
   return (
     <Card>
@@ -20,7 +20,7 @@ export default function AmountCard({
       <div className="flex flex-row items-center my-4 gap-2">
         {options.map((option) => (
           <button
-            key={option}
+            key={"option-" + option}
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
             onClick={() => {
               onSubmit(option);
