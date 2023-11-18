@@ -9,6 +9,8 @@ import SelectionPage from "./pages/SelectionPage";
 import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
 import JoinSession from "./pages/JoinSession";
+import Cookbook from "./pages/Cookbook";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
           <Route path="/cooking" element={<Cooking />} />
           <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/join_session" element={<JoinSession />} />
+          <Route path="/cookbook" element={<Cookbook />} />
           <Route
             path="*"
             element={

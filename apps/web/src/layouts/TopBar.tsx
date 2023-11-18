@@ -11,7 +11,10 @@ export default function TopBar() {
           </a>
         </div>
         <div className="flex items-center">
-          <div className="mr-4">User</div>
+          <a href="/cookbook" className="mr-4">
+            My Cookbook
+          </a>
+          <div className="mr-4">John Doe</div>
         </div>
       </div>
     </header>

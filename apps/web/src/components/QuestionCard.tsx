@@ -27,7 +27,7 @@ export default function QuestionCard({
         }
       }}
     >
-      <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center gap-2">
+      <div className="bg-white rounded-xl shadow-xl p-4 flex flex-col items-center gap-2 w-96 h-96">
         <h1 className="text-2xl font-bold">{question}</h1>
         <img
           className="w-72 h-52 my-4 rounded-md object-contain"
