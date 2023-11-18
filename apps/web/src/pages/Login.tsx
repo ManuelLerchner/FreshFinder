@@ -1,6 +1,17 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { supabase } from "../components/SupabaseClient";
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signIn({
+      email: username,
+      password: password,
+    });
+    if (error) console.error(error);
+  };
+
   return (
     <div className="flex flex-col items-center my-4">
       <h1 className="text-2xl font-bold">Login</h1>
@@ -10,13 +21,20 @@ export default function Login() {
         <input
           type="text"
           className="border-2 border-gray-500 rounded-lg px-2 py-1"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <label className="text-xl font-bold">Password</label>
         <input
           type="password"
           className="border-2 border-gray-500 rounded-lg px-2 py-1"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="bg-blue-500 text-white px-2 py-1 rounded-lg">
+        <button
+          className="bg-blue-500 text-white px-2 py-1 rounded-lg"
+          onClick={handleLogin}
+        >
           Login
         </button>
       </div>
