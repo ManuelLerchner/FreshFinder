@@ -10,22 +10,40 @@ export default function TopBar() {
             Fresh Finder
           </a>
         </div>
-        <div className="flex items-between"> 
+        <div className="flex items-between">
           <div className="flex items-center">
-            <a href="/join_session" className="mr-4">
+            <a
+              href="/join_session"
+              className="underline font-semibold flex-row flex gap-1"
+            >
               Join Session
+              <img
+                src="https://www.svgrepo.com/show/304494/session-join.svg"
+                className="w-6 h-6"
+                style={{ filter: "invert(1)" }}
+                alt="profile"
+              />
             </a>
           </div>
         </div>
         <div className="flex items-center">
-          <a href="/cookbook" className="mr-4 underline font-semibold">
+          <a
+            href="/cookbook"
+            className="underline font-semibold flex-row flex gap-1 mr-4"
+          >
             My Cookbook
+            <img
+              src="https://www.iconpacks.net/icons/2/free-opened-book-icon-3163-thumb.png"
+              className="w-6 h-6"
+              style={{ filter: "invert(1)" }}
+              alt="profile"
+            />
           </a>
 
           <div className="flex flex-row items-center">
-            <div
+            <a
               className="mr-4
-            bg-gray-700 rounded-full p-2 flex items-center justify-center
+            bg-gray-700 rounded-full p-2 flex items-center justify-center cursor-pointer
             "
             >
               <img
@@ -33,10 +51,9 @@ export default function TopBar() {
                 className="w-6 h-6"
                 alt="profile"
               />
-            </div>
+            </a>
           </div>
         </div>
-        
       </div>
     </header>
   );
