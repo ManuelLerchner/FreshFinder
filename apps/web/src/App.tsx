@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import MealPicker from "./pages/MealPicker";
 import Configure from "./pages/Configure";
 import Login from "./components/Login";
+import SelectionPage from "./pages/SelectionPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<MealPicker />} />
           <Route path="/configure" element={<Configure />} />
+          <Route path="/food-selection" element={<SelectionPage />} />
         </Route>
         <Route path="/auth" element={<MainLayout />}>
           <Route path="auth/login" element={<Login />} />
