@@ -39,8 +39,8 @@ export default function Cooking() {
     const channel = supabase.channel(sessionIDTemp);
     // Add a listener until someone joins the session
     channel
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        console.log("Recognized Partner")
+      .on("presence", { event: "join" }, ({ key, newPresences }) => {
+        console.log("Recognized Partner");
         // add delay to make sure that the partner is ready
         startSynchronisation(sessionIDTemp);
       })
@@ -61,14 +61,12 @@ export default function Cooking() {
       });
     });
     console.log("Listening for Updates");
-    channel.on(
-      'broadcast',
-      { event: 'updateSteps' },
-      (payload) => {updateRecipeSteps(payload)},
-    );
+    channel.on("broadcast", { event: "updateSteps" }, (payload) => {
+      updateRecipeSteps(payload);
+    });
   }
-  
-  function updateRecipeSteps( payload:any) {
+
+  function updateRecipeSteps(payload: any) {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
     if(myStep < 0){
@@ -122,11 +120,9 @@ export default function Cooking() {
         payload: { recipeID: recipeID },
       });
     });
-    channel.on(
-      'broadcast',
-      { event: 'requestUpdate' },
-      (payload) => {updateFirstRequest(sessionIDTemp)},
-    );
+    channel.on("broadcast", { event: "requestUpdate" }, (payload) => {
+      updateFirstRequest(sessionIDTemp);
+    });
   }
 
   function getRandomInt(max: number) {
@@ -135,7 +131,7 @@ export default function Cooking() {
 
   return (
     <>
-      <div className="h-full flex flex-col items-ce nter my-4">
+      <div className="h-full flex flex-col items-center my-4">
         <div className="h-full flex flex-col items-center justify-center my-2">
           {customizeView && recipeID && (
             <Customize

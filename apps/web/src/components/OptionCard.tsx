@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 
 export default function OptionCard<T extends React.ReactNode>({
@@ -12,6 +12,8 @@ export default function OptionCard<T extends React.ReactNode>({
   options: T[];
   onSubmit: (num: T) => void;
 }) {
+  const [value, setValue] = useState<T>();
+
   return (
     <Card>
       <h1 className="text-2xl font-bold mb-2">{title}</h1>
@@ -21,8 +23,14 @@ export default function OptionCard<T extends React.ReactNode>({
         {options.map((option) => (
           <button
             key={"option-" + option}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
+            className={
+              "  text-white px-4 py-2 rounded-md hover:scale-[102%] " +
+              (value === option
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-green-500 hover:bg-green-600")
+            }
             onClick={() => {
+              setValue(option);
               onSubmit(option);
             }}
           >

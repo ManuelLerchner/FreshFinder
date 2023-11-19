@@ -13,6 +13,8 @@ export default function Cookbook() {
       RecipeId: number;
       title: string;
       url: string;
+      difficulty: number;
+      cookingTime: number;
     }[]
   >([]);
 
@@ -20,13 +22,17 @@ export default function Cookbook() {
     const queryFunction = async () => {
       const { data, error } = await supabase
         .from("Orders")
-        .select("id, RecipeId, Recipes(name, recipeImages)")
+        .select(
+          "id, RecipeId, Recipes(name, recipeImages, difficulty, cookingTime)"
+        )
         .eq("id", localUser.uuid);
 
       const newData = (data as any).map((recipe: any) => ({
         RecipeId: recipe.RecipeId,
         title: recipe.Recipes.name,
         url: recipe.Recipes.recipeImages.images[0],
+        difficulty: recipe.Recipes.difficulty,
+        cookingTime: recipe.Recipes.cookingTime,
       }));
 
       setRecipes(newData);
@@ -46,22 +52,35 @@ export default function Cookbook() {
           Start a new cooking session by selecting one of your recipes.
         </h2>
 
-        <div className="flex flex-row justify-center items-center my-8">
+        <div className="flex flex-col justify-center items-center my-8 gap-4 w-full">
           {recipes.map((recipe) => (
             <RecommendedFood
               key={recipe.RecipeId}
               name={recipe.title}
               image={recipe.url}
               body={
-                <div className="flex justify-center items-center gap-4">
-                  <button
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
-                    onClick={() => {
-                      navigate("/cooking/"+recipe.RecipeId);
-                    }}
-                  >
-                    Create Session
-                  </button>
+                <div className="flex flex-col items-start justify-around gap-2 p-2">
+                  <div className="flex flex-col items-start justify-around">
+                    <p className="text-md font-light">
+                      Difficulty:{" "}
+                      <span className="font-bold">{recipe.difficulty}</span>
+                    </p>
+
+                    <p className="text-md font-light">
+                      Cooking Time:{" "}
+                      <span className="font-bold">{recipe.cookingTime}</span>
+                    </p>
+                  </div>
+                  <div className="flex justify-end items-center gap-4 w-full">
+                    <button
+                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
+                      onClick={() => {
+                        navigate("/cooking/" + recipe.RecipeId);
+                      }}
+                    >
+                      Create Session
+                    </button>
+                  </div>
                 </div>
               }
               onDiscard={() => {}}

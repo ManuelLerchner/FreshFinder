@@ -4,15 +4,13 @@ import { localUser, supabase } from "../components/SupabaseClient";
 import { RealtimeChannel } from "@supabase/supabase-js";
 
 export default function JoinSession() {
-
   const navigate = useNavigate();
   const [sessionID, setsessionID] = useState("");
 
-
   // Simple function to log any messages we receive
-  function updateRecipeSteps( payload: any) {
-    console.log("Received new RecipeID: ", payload.payload.recipeID)
-    navigate("/cooking-partner/" + payload.payload.recipeID +"_"+sessionID);
+  function updateRecipeSteps(payload: any) {
+    console.log("Received new RecipeID: ", payload.payload.recipeID);
+    navigate("/cooking-partner/" + payload.payload.recipeID + "_" + sessionID);
   }
 
   return (
@@ -30,29 +28,27 @@ export default function JoinSession() {
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
-          if(supabase.getChannels().length > 0) {
+          if (supabase.getChannels().length > 0) {
             console.log("Removing all channels");
             supabase.removeAllChannels();
           }
           console.log("Joining session: ", sessionID);
-          const channel = supabase.channel(sessionID)
+          const channel = supabase.channel(sessionID);
           const userStatus = {
-            cmd: 'RequestUpdateSteps',
-          }
+            cmd: "RequestUpdateSteps",
+          };
           channel.subscribe(async (status) => {
-            if (status !== 'SUBSCRIBED') {
-              return 
+            if (status !== "SUBSCRIBED") {
+              return;
             }
-            await channel.track(userStatus)
-          })
-          channel.on(
-            'broadcast',
-            { event: 'updateRecipe' },
-            (payload) => updateRecipeSteps(payload)
-          )
+            await channel.track(userStatus);
+          });
+          channel.on("broadcast", { event: "updateRecipe" }, (payload) =>
+            updateRecipeSteps(payload)
+          );
         }}
       >
-        Join Session...
+        Join Session
       </button>
     </div>
   );

@@ -27,7 +27,7 @@ export default function RecommendedFood({
           alt={name}
           className="max-w-[220px] rounded-md object-cover shadow-md"
         />
-        <div className="flex flex-col items-start justify-around mx-4 p-2">
+        <div className="flex flex-col items-start justify-around mx-4 p-2 w-[400px]">
           <h1 className="text-2xl font-bold underline mb-4">{name}</h1>
           <div className="w-full">{body}</div>
         </div>
