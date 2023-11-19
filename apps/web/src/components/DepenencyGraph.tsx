@@ -57,8 +57,9 @@ export default function DepenencyGraph({
 
   const canvasRef = React.useRef<any>(undefined);
 
-  const data: ChartConfiguration<"tree">["data"] = {
+  const data: ChartConfiguration<"dendogram">["data"] = {
     labels: tree.nodes.map((d) => d.label),
+
     datasets: [
       {
         pointBackgroundColor: "steelblue",
@@ -72,8 +73,26 @@ export default function DepenencyGraph({
   useEffect(() => {
     chartRef.current = new Chart(canvasRef.current, {
       type: "dendrogram",
+      options: {
+        tree: {
+          orientation: "vertical",
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context: any) {
+                const label = context.dataset.data[context.dataIndex].label;
+                return label;
+              },
+            },
+          },
+        },
+      },
       data: data,
-    });
+    } as any);
 
     return () => {
       chartRef.current.destroy();

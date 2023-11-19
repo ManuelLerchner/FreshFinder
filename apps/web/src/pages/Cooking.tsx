@@ -3,9 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../components/SupabaseClient";
 import CookingStep from "../components/CookingStep";
 import DepenencyGraph, { convertToTree } from "../components/DepenencyGraph";
+import Customize from "./Customize";
 
 export default function Cooking() {
   const { recipeID } = useParams();
+
+  const [customizeView, setCustomizeView] = useState<boolean>(false);
 
   const [finishedSteps, setFinishedSteps] = useState<number[]>([]);
   const [myStep, setMyStep] = useState<number>(0);
@@ -58,8 +61,8 @@ export default function Cooking() {
     const channel = supabase.channel(sessionID);
     // Add a listener until someone joins the session
     channel
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        console.log("Recognized Partner")
+      .on("presence", { event: "join" }, ({ key, newPresences }) => {
+        console.log("Recognized Partner");
         startSynchronisation();
       })
       .subscribe();
@@ -67,14 +70,25 @@ export default function Cooking() {
 
   return (
     <>
-      <div className="h-full flex flex-col items-center my-4">
-        <h1 className="text-2xl font-bold">
-          Start Cooking - SessionID: {sessionID}
-        </h1>
-
+      <div className="h-full flex flex-col items-ce nter my-4">
         <div className="h-full flex flex-col items-center justify-center my-2">
-          {recipe && (
-            <>
+          {customizeView && recipeID && (
+            <Customize
+              recipeID={recipeID}
+              recipeCallback={(s) => {
+                setRecipe((old) => {
+                  return { ...old, ...s.Steps };
+                });
+                setCustomizeView(false);
+              }}
+            />
+          )}
+
+          {!customizeView && recipe && (
+            <div className="flex flex-col h-full justify-around items-center">
+              <h1 className="text-2xl font-bold">
+                Start Cooking - SessionID: {sessionID}
+              </h1>
               <CookingStep
                 step_number={myStep}
                 description={recipe.Steps[myStep]}
@@ -94,13 +108,25 @@ export default function Cooking() {
                     : "Next Step"
                 }
               />
+              <div className="max-w-xl flex  flex-col items-center justify-between p-4  rounded-xl bg-white shadow-xl">
+                <h1 className="text-2xl font-bold">Roadmap</h1>
 
-              <DepenencyGraph
-                tree={convertToTree(recipe.DependencyGraph.Dependency)}
-              />
-            </>
+                <DepenencyGraph
+                  tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                />
+              </div>
+            </div>
           )}
         </div>
+
+        <button
+          className="btn btn-primary self-end"
+          onClick={() => {
+            setCustomizeView(!customizeView);
+          }}
+        >
+          {customizeView ? "Hide" : "Customize"}
+        </button>
       </div>
     </>
   );
