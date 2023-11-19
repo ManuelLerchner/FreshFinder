@@ -20,8 +20,8 @@ export default function Cooking() {
   }>();
 
   useEffect(() => {
-    if(!ids){
-      console.log("No SessionID provided")
+    if (!ids) {
+      console.log("No SessionID provided");
       return;
     }
     const splittedIDs = ids.split("_");
@@ -34,63 +34,53 @@ export default function Cooking() {
         .select("*")
         .eq("id", recipeID);
 
-       setRecipe((data as any)[0]);
+      setRecipe((data as any)[0]);
     };
 
-    queryFunction()
-    
+    queryFunction();
   }, []);
-    
+
   useEffect(() => {
-      if (sessionID && recipe) {
-        const channel = supabase.channel(sessionID);
-        // Add a listener until someone joins the session
-        channel.subscribe((status) => {
-          if (status !== "SUBSCRIBED") {
-            return null;
+    if (sessionID && recipe) {
+      const channel = supabase.channel(sessionID);
+      // Add a listener until someone joins the session
+      channel.subscribe((status) => {
+        if (status !== "SUBSCRIBED") {
+          return null;
+        }
+        console.log("Requesting Update");
+        channel.send({
+          type: "broadcast",
+          event: "requestUpdate",
+          payload: {},
+        });
+        console.log("Listening for First Updates");
+        channel.on("broadcast", { event: "firstUpdate" }, (payload) => {
+          console.log("Received first Update");
+          const newFinishedSteps: number[] = payload.payload.finishedSteps;
+          setFinishedSteps(newFinishedSteps);
+          let newMyStep: number = payload.payload.myStep + 1;
+          while (newFinishedSteps.includes(newMyStep)) {
+            newMyStep = newMyStep + 1;
           }
-          console.log("Requesting Update");
+          if (newMyStep >= recipe.recipeImages.images.length - 1) return;
+          setMyStep(newMyStep);
           channel.send({
             type: "broadcast",
-            event: "requestUpdate",
-            payload: {},
+            event: "updateSteps",
+            payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
           });
-          console.log("Listening for First Updates");
-          channel.on(
-            'broadcast',
-            { event: 'firstUpdate' },
-            (payload) => {
-              console.log("Received first Update");
-              const newFinishedSteps : number[] = payload.payload.finishedSteps;
-              setFinishedSteps(newFinishedSteps);
-              let newMyStep : number = payload.payload.myStep +1;
-              while (newFinishedSteps.includes(newMyStep)) {
-                newMyStep = newMyStep + 1;
-              }
-              if(newMyStep >= recipe.recipeImages.images.length - 1) return;
-              setMyStep(newMyStep);
-              channel.send({
-                type: "broadcast",
-                event: "updateSteps",
-                payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
-              });
-              console.log("Listening for Updates");
-              channel.on(
-                'broadcast',
-                { event: 'updateSteps' },
-                (payload) => {
-                  console.log("Received Update");
-                  updateRecipeSteps(payload)
-                },
-              );
-            },
-          );
+          console.log("Listening for Updates");
+          channel.on("broadcast", { event: "updateSteps" }, (payload) => {
+            console.log("Received Update");
+            updateRecipeSteps(payload);
+          });
         });
-      }
-    }, [recipe]);
-  
+      });
+    }
+  }, [recipe]);
 
-  function updateRecipeSteps( payload:any) {
+  function updateRecipeSteps(payload: any) {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
   }
@@ -98,9 +88,7 @@ export default function Cooking() {
   return (
     <>
       <div className="h-full flex flex-col items-center my-4">
-        <h1 className="text-2xl font-bold">
-          Cooking - SessionID: {sessionID}
-        </h1>
+        <h1 className="text-2xl font-bold">Cooking - SessionID: {sessionID}</h1>
 
         <div className="h-full flex flex-col items-center justify-center my-2">
           {recipe && (
@@ -117,12 +105,15 @@ export default function Cooking() {
                   const newFinishedSteps = [...finishedSteps, myStep];
                   setFinishedSteps(newFinishedSteps);
                   let newMyStep = myStep + 1;
-                  while (newFinishedSteps.includes(newMyStep) || newMyStep == partnerStep) {
+                  while (
+                    newFinishedSteps.includes(newMyStep) ||
+                    newMyStep == partnerStep
+                  ) {
                     newMyStep = newMyStep + 1;
                   }
-                  if(myStep >= recipe.recipeImages.images.length - 1) return;
+                  if (myStep >= recipe.recipeImages.images.length - 1) return;
                   setMyStep(newMyStep);
-                  if(sessionID ==="") return;
+                  if (sessionID === "") return;
                   const channel = supabase.channel(sessionID);
                   console.log("Sending Update");
                   channel.subscribe((status) => {
@@ -132,14 +123,19 @@ export default function Cooking() {
                     channel.send({
                       type: "broadcast",
                       event: "updateSteps",
-                      payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
+                      payload: {
+                        finishedSteps: newFinishedSteps,
+                        myStep: newMyStep,
+                      },
                     });
                   });
                   console.log("Listening for Updates");
                   channel.on(
-                    'broadcast',
-                    { event: 'updateSteps' },
-                    (payload) => {updateRecipeSteps(payload)},
+                    "broadcast",
+                    { event: "updateSteps" },
+                    (payload) => {
+                      updateRecipeSteps(payload);
+                    }
                   );
                 }}
                 buttonDisabled={myStep >= recipe.recipeImages.images.length - 1}
@@ -151,6 +147,7 @@ export default function Cooking() {
               />
               <DepenencyGraph
                 tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                currentStep={myStep}
               />
             </>
           )}
