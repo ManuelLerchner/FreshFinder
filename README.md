@@ -2,6 +2,10 @@
 
 This is our submission for the HackaTum2023 hackathon. It is based on the `HelloFresh` Challenge and aims to provide a smooth and easy way to suggest recipes to users based on their preferences.
 
+# Installation
+1. Set up npm and node.js
+2. run npm run start in the webfolder
+
 ## Technologies
 
 TODO
