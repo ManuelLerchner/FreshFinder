@@ -61,7 +61,7 @@ export default function DepenencyGraph({
 
     datasets: [
       {
-        pointRadius: 5,
+        pointRadius: 10,
         data: tree.nodes,
         edges: tree.edges,
       } as any,
@@ -112,5 +112,15 @@ export default function DepenencyGraph({
     chartRef.current.update();
   }
 
-  return <canvas ref={canvasRef} style={{ width: "100%" }} />;
+  return (
+    <div className="flex flex-col items-center my-2">
+      <span className="text-sm font-semibold">Finish</span>
+      <canvas
+        className="my-2 border-gray-500 border-spacing-4"
+        ref={canvasRef}
+        style={{ width: "100%" }}
+      />
+      <span className="text-sm font-semibold">Start</span>
+    </div>
+  );
 }
