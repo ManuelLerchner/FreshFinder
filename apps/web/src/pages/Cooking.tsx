@@ -39,8 +39,8 @@ export default function Cooking() {
     const channel = supabase.channel(sessionIDTemp);
     // Add a listener until someone joins the session
     channel
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        console.log("Recognized Partner")
+      .on("presence", { event: "join" }, ({ key, newPresences }) => {
+        console.log("Recognized Partner");
         // add delay to make sure that the partner is ready
         startSynchronisation(sessionIDTemp);
       })
@@ -61,13 +61,11 @@ export default function Cooking() {
       });
     });
     console.log("Listening for Updates");
-    channel.on(
-      'broadcast',
-      { event: 'updateSteps' },
-      (payload) => {updateRecipeSteps(payload)},
-    );
+    channel.on("broadcast", { event: "updateSteps" }, (payload) => {
+      updateRecipeSteps(payload);
+    });
   }
-  
+
   function updateRecipeSteps(payload: any) {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
@@ -86,11 +84,9 @@ export default function Cooking() {
         payload: { recipeID: recipeID },
       });
     });
-    channel.on(
-      'broadcast',
-      { event: 'requestUpdate' },
-      (payload) => {updateFirstRequest(sessionIDTemp)},
-    );
+    channel.on("broadcast", { event: "requestUpdate" }, (payload) => {
+      updateFirstRequest(sessionIDTemp);
+    });
   }
 
   function getRandomInt(max: number) {
@@ -99,7 +95,7 @@ export default function Cooking() {
 
   return (
     <>
-      <div className="h-full flex flex-col items-ce nter my-4">
+      <div className="h-full flex flex-col items-center my-4">
         <div className="h-full flex flex-col items-center justify-center my-2">
           {customizeView && recipeID && (
             <Customize
@@ -130,12 +126,15 @@ export default function Cooking() {
                   const newFinishedSteps = [...finishedSteps, myStep];
                   setFinishedSteps(newFinishedSteps);
                   let newMyStep = myStep + 1;
-                  while (newFinishedSteps.includes(newMyStep) || newMyStep == partnerStep) {
+                  while (
+                    newFinishedSteps.includes(newMyStep) ||
+                    newMyStep == partnerStep
+                  ) {
                     newMyStep = newMyStep + 1;
                   }
-                  if(myStep >= recipe.recipeImages.images.length - 1) return;
+                  if (myStep >= recipe.recipeImages.images.length - 1) return;
                   setMyStep(newMyStep);
-                  if(sessionID ==="") return;
+                  if (sessionID === "") return;
                   const channel = supabase.channel(sessionID);
                   console.log("Sending Update");
                   channel.subscribe((status) => {
@@ -145,14 +144,19 @@ export default function Cooking() {
                     channel.send({
                       type: "broadcast",
                       event: "updateSteps",
-                      payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
+                      payload: {
+                        finishedSteps: newFinishedSteps,
+                        myStep: newMyStep,
+                      },
                     });
                   });
                   console.log("Listening for Updates");
                   channel.on(
-                    'broadcast',
-                    { event: 'updateSteps' },
-                    (payload) => {updateRecipeSteps(payload)},
+                    "broadcast",
+                    { event: "updateSteps" },
+                    (payload) => {
+                      updateRecipeSteps(payload);
+                    }
                   );
                 }}
                 buttonDisabled={myStep >= recipe.recipeImages.images.length - 1}
@@ -186,4 +190,3 @@ export default function Cooking() {
     </>
   );
 }
-

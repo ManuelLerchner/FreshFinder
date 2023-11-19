@@ -40,8 +40,8 @@ export default function TopBar() {
           <div className="flex flex-row items-center">
             <a
               className="mr-4
-            bg-gray-700 rounded-full p-2 flex items-center justify-center cursor-pointer
-            "
+            bg-gray-700 rounded-full p-2 flex items-center justify-center"
+              href="/configure"
             >
               <img
                 src="https://cdn-icons-png.flaticon.com/512/666/666201.png"

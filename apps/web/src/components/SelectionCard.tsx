@@ -50,6 +50,7 @@ export default function SelectionCard({
                 className="mr-2"
                 name={title}
                 value={option}
+                checked={selected.includes(option)}
                 onChange={(e) => {
                   if (e.target.checked) {
                     setSelected([...selected, option]);

@@ -23,51 +23,53 @@ export default function Configure() {
           />
         )}
 
-        {stage === 1 && (
-          <SelectionCard
-            title="Allergies"
-            description="Select all your allergies"
-            options={[
-              "Peanuts",
-              "Tree Nuts",
-              "Dairy",
-              "Eggs",
-              "Wheat",
-              "Soy",
-              "Fish",
-              "Shellfish",
-            ]}
-            onChange={(selected) => {
-              console.log(selected);
-            }}
-            onNext={() => {
-              setStage(2);
-            }}
-          />
-        )}
+        <div>
+          {stage === 1 && (
+            <SelectionCard
+              title="Allergies"
+              description="Select all your allergies"
+              options={[
+                "Peanuts",
+                "Tree Nuts",
+                "Dairy",
+                "Eggs",
+                "Wheat",
+                "Soy",
+                "Fish",
+                "Shellfish",
+              ]}
+              onChange={(selected) => {
+                console.log(selected);
+              }}
+              onNext={() => {
+                setStage(2);
+              }}
+            />
+          )}
 
-        {stage === 2 && (
-          <SelectionCard
-            title="Disliked Foods"
-            description="Select all the foods you dislike"
-            options={[
-              "Onions",
-              "Tomatoes",
-              "Peppers",
-              "Mushrooms",
-              "Broccoli",
-              "Carrots",
-              "Celery",
-              "Spinach",
-            ]}
-            onChange={(selected) => {
-              console.log(selected);
-            }}
-            onNext={() => {
-              navigate("/meal-picker");
-            }}
-          />
-        )}
+          {stage === 2 && (
+            <SelectionCard
+              title="Disliked Foods"
+              description="Select all the foods you dislike"
+              options={[
+                "Onions",
+                "Tomatoes",
+                "Peppers",
+                "Mushrooms",
+                "Broccoli",
+                "Carrots",
+                "Celery",
+                "Spinach",
+              ]}
+              onChange={(selected) => {
+                console.log(selected);
+              }}
+              onNext={() => {
+                navigate("/meal-picker");
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
