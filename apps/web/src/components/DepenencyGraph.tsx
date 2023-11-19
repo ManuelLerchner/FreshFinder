@@ -5,6 +5,7 @@ import "chartjs-plugin-datalabels";
 
 import { Chart, registerables } from "chart.js";
 import { DendogramController, EdgeLine } from "chartjs-chart-graph";
+import { finished } from "stream";
 
 Chart.register(DendogramController, EdgeLine, ...registerables);
 
@@ -45,12 +46,16 @@ export function convertToTree(dependencyArray: number[][]) {
 export default function DepenencyGraph({
   currentStep,
   tree,
+  finishedSteps,
+  partnerStep,
 }: {
   currentStep: number;
   tree: {
     nodes: { label: string; id: number }[];
     edges: { source: number; target: number }[];
   };
+  finishedSteps: number[];
+  partnerStep: number;
 }) {
   const chartRef = useRef<any>(null);
 
@@ -58,7 +63,6 @@ export default function DepenencyGraph({
 
   const data: ChartConfiguration<"dendogram">["data"] = {
     labels: tree.nodes.map((d) => d.label),
-
     datasets: [
       {
         pointRadius: 10,
@@ -101,7 +105,10 @@ export default function DepenencyGraph({
     if (i === currentStep) {
       return "red";
     }
-    if (i < currentStep) {
+    if(i === partnerStep) {
+      return "black";
+    }
+    if (finishedSteps.includes(i)) {
       return "green";
     }
     return "grey";

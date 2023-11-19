@@ -74,6 +74,9 @@ export default function Cooking() {
       setMyStep(myNewStep);
       sendUpdate(sessionID, payload.payload.finishedSteps, myNewStep, updateRecipeSteps);
     }
+    if(recipe && payload.payload.myStep >= recipe.Steps.length) {
+      setMyStep(recipe.Steps.length);
+    }
   }
 
   function getNewStep(newFinishedSteps: number[]) {
@@ -159,7 +162,10 @@ export default function Cooking() {
                   ]
                 }
                 onFinished={() => {
-                  const newFinishedSteps = [...finishedSteps, myStep];
+                  let newFinishedSteps = [...finishedSteps];
+                  if(!finishedSteps.includes(myStep)) {
+                    newFinishedSteps = [...finishedSteps, myStep];
+                  }
                   setFinishedSteps(newFinishedSteps);
                   let newMyStep = getNewStep(newFinishedSteps);
                   console.log("Setting my Step to: ", newMyStep);
@@ -180,6 +186,8 @@ export default function Cooking() {
                 <DepenencyGraph
                   currentStep={myStep}
                   tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                  finishedSteps={finishedSteps}
+                  partnerStep={partnerStep}
                 />
               </div>
             </div>
