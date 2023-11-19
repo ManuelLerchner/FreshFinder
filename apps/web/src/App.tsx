@@ -12,10 +12,9 @@ import JoinSession from "./pages/JoinSession";
 import Cookbook from "./pages/Cookbook";
 import CookingPartner from "./pages/CookingPartner";
 
-
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={"/FreshFinder/"}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<Navigate to="/food-selection" />} />
