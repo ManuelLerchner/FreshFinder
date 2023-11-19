@@ -159,7 +159,10 @@ export default function Cooking() {
                   ]
                 }
                 onFinished={() => {
-                  const newFinishedSteps = [...finishedSteps, myStep];
+                  let newFinishedSteps = [...finishedSteps];
+                  if(!finishedSteps.includes(myStep)) {
+                    newFinishedSteps = [...finishedSteps, myStep];
+                  }
                   setFinishedSteps(newFinishedSteps);
                   let newMyStep = getNewStep(newFinishedSteps);
                   console.log("Setting my Step to: ", newMyStep);
@@ -181,6 +184,7 @@ export default function Cooking() {
                   currentStep={myStep}
                   tree={convertToTree(recipe.DependencyGraph.Dependency)}
                   finishedSteps={finishedSteps}
+                  partnerStep={partnerStep}
                 />
               </div>
             </div>

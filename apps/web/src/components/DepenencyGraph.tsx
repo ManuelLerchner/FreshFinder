@@ -47,6 +47,7 @@ export default function DepenencyGraph({
   currentStep,
   tree,
   finishedSteps,
+  partnerStep,
 }: {
   currentStep: number;
   tree: {
@@ -54,6 +55,7 @@ export default function DepenencyGraph({
     edges: { source: number; target: number }[];
   };
   finishedSteps: number[];
+  partnerStep: number;
 }) {
   const chartRef = useRef<any>(null);
 
@@ -61,10 +63,9 @@ export default function DepenencyGraph({
 
   const data: ChartConfiguration<"dendogram">["data"] = {
     labels: tree.nodes.map((d) => d.label),
-
     datasets: [
       {
-        pointRadius: 5,
+        pointRadius: 10,
         data: tree.nodes,
         edges: tree.edges,
       } as any,
@@ -103,6 +104,9 @@ export default function DepenencyGraph({
   const colorArray = tree.nodes.map((d, i) => {
     if (i === currentStep) {
       return "red";
+    }
+    if(i === partnerStep) {
+      return "black";
     }
     if (finishedSteps.includes(i)) {
       return "green";
