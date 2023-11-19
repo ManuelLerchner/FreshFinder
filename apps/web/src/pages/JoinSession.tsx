@@ -7,14 +7,12 @@ export default function JoinSession() {
 
   const navigate = useNavigate();
   const [sessionID, setsessionID] = useState("");
-  const [recipeID, setrecipeID] = useState("");
 
 
   // Simple function to log any messages we receive
   function updateRecipeSteps( payload: any) {
-    setrecipeID(payload.recipeID)
-    console.log("Received new RecipeID: ", recipeID)
-    navigate("/cooking/" + recipeID);
+    console.log("Received new RecipeID: ", payload.payload.recipeID)
+    navigate("/cooking-partner/" + payload.payload.recipeID +"_"+sessionID);
   }
 
   return (
@@ -32,19 +30,24 @@ export default function JoinSession() {
       <button
         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
         onClick={() => {
+          if(supabase.getChannels().length > 0) {
+            console.log("Removing all channels");
+            supabase.removeAllChannels();
+          }
           console.log("Joining session: ", sessionID);
           const channel = supabase.channel(sessionID)
-          // add on presence listener
           const userStatus = {
             cmd: 'RequestUpdateSteps',
           }
           channel.subscribe(async (status) => {
-            if (status !== 'SUBSCRIBED') { return }
-             await channel.track(userStatus)
+            if (status !== 'SUBSCRIBED') {
+              return 
+            }
+            await channel.track(userStatus)
           })
           channel.on(
             'broadcast',
-            { event: 'updateSteps' },
+            { event: 'updateRecipe' },
             (payload) => updateRecipeSteps(payload)
           )
         }}

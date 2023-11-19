@@ -11,6 +11,7 @@ import OrderSuccesfull from "./pages/OrderSuccesfull";
 import JoinSession from "./pages/JoinSession";
 import Cookbook from "./pages/Cookbook";
 import Customize from "./pages/Customize";
+import CookingPartner from "./pages/CookingPartner";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/meal-picker" element={<MealPicker />} />
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking/:recipeID" element={<Cooking />} />
+          <Route path="/cooking-partner/:ids" element={<CookingPartner />} />
           <Route path="/customize/:recipeID" element={<Customize />} />
           <Route path="/join_session" element={<JoinSession />} />
           <Route path="/success" element={<OrderSuccesfull />} />

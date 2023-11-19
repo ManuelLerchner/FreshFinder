@@ -5,12 +5,12 @@ import CookingStep from "../components/CookingStep";
 import DepenencyGraph, { convertToTree } from "../components/DepenencyGraph";
 
 export default function Cooking() {
-  const { recipeID } = useParams();
+  const { ids } = useParams();
 
   const [finishedSteps, setFinishedSteps] = useState<number[]>([]);
   const [myStep, setMyStep] = useState<number>(0);
   const [partnerStep, setPartnerMyStep] = useState<number>(0);
-  const [sessionID, setSessionID] = useState<string>("");
+  const [sessionID, setsessionID] = useState<string>("");
 
   const [recipe, setRecipe] = useState<{
     name: string;
@@ -20,85 +20,86 @@ export default function Cooking() {
   }>();
 
   useEffect(() => {
+    if(!ids){
+      console.log("No SessionID provided")
+      return;
+    }
+    const splittedIDs = ids.split("_");
+    const recipeID = splittedIDs[0];
+    const sessionID = splittedIDs[1];
+    setsessionID(sessionID);
     const queryFunction = async () => {
       const { data, error } = await supabase
         .from("Recipes")
         .select("*")
         .eq("id", recipeID);
 
-      setRecipe((data as any)[0]);
+       setRecipe((data as any)[0]);
     };
 
-    queryFunction();
-    const sessionIDTemp = getRandomInt(100).toString();
-    setSessionID(sessionIDTemp);
-    console.log("Started SessionID: ", sessionIDTemp);
-    const channel = supabase.channel(sessionIDTemp);
-    // Add a listener until someone joins the session
-    channel
-      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-        console.log("Recognized Partner")
-        // add delay to make sure that the partner is ready
-        startSynchronisation(sessionIDTemp);
-      })
-      .subscribe();
+    queryFunction()
+    
   }, []);
-
-  function updateFirstRequest(sessionIDTemp: string): void {
-    console.log("Send current Configuration");
-    const channel = supabase.channel(sessionIDTemp);
-    channel.subscribe((status) => {
-      if (status !== "SUBSCRIBED") {
-        return null;
+    
+  useEffect(() => {
+      if (sessionID && recipe) {
+        const channel = supabase.channel(sessionID);
+        // Add a listener until someone joins the session
+        channel.subscribe((status) => {
+          if (status !== "SUBSCRIBED") {
+            return null;
+          }
+          console.log("Requesting Update");
+          channel.send({
+            type: "broadcast",
+            event: "requestUpdate",
+            payload: {},
+          });
+          console.log("Listening for First Updates");
+          channel.on(
+            'broadcast',
+            { event: 'firstUpdate' },
+            (payload) => {
+              console.log("Received first Update");
+              const newFinishedSteps : number[] = payload.payload.finishedSteps;
+              setFinishedSteps(newFinishedSteps);
+              let newMyStep : number = payload.payload.myStep +1;
+              while (newFinishedSteps.includes(newMyStep)) {
+                newMyStep = newMyStep + 1;
+              }
+              if(newMyStep >= recipe.recipeImages.images.length - 1) return;
+              setMyStep(newMyStep);
+              channel.send({
+                type: "broadcast",
+                event: "updateSteps",
+                payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
+              });
+              console.log("Listening for Updates");
+              channel.on(
+                'broadcast',
+                { event: 'updateSteps' },
+                (payload) => {
+                  console.log("Received Update");
+                  updateRecipeSteps(payload)
+                },
+              );
+            },
+          );
+        });
       }
-      channel.send({
-        type: "broadcast",
-        event: "firstUpdate",
-        payload: { finishedSteps: finishedSteps, myStep: myStep },
-      });
-    });
-    console.log("Listening for Updates");
-    channel.on(
-      'broadcast',
-      { event: 'updateSteps' },
-      (payload) => {updateRecipeSteps(payload)},
-    );
-  }
+    }, [recipe]);
   
-  function updateRecipeSteps(payload: any) {
+
+  function updateRecipeSteps( payload:any) {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
-  }
-
-  function startSynchronisation(sessionIDTemp: string) {
-    const channel = supabase.channel(sessionIDTemp);
-    console.log("Starting Synchronisation with SessionID: ", sessionIDTemp);
-    channel.subscribe((status) => {
-      if (status !== "SUBSCRIBED") {
-        return null;
-      }
-      channel.send({
-        type: "broadcast",
-        event: "updateRecipe",
-        payload: { recipeID: recipeID },
-      });
-    });
-    channel.on(
-      'broadcast',
-      { event: 'requestUpdate' },
-      (payload) => {updateFirstRequest(sessionIDTemp)},
-    );
-  }
-
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
   }
 
   return (
     <>
       <div className="h-full flex flex-col items-center my-4">
         <h1 className="text-2xl font-bold">
-          Start Cooking - SessionID: {sessionID}
+          Cooking - SessionID: {sessionID}
         </h1>
 
         <div className="h-full flex flex-col items-center justify-center my-2">
@@ -148,7 +149,6 @@ export default function Cooking() {
                     : "Next Step"
                 }
               />
-
               <DepenencyGraph
                 tree={convertToTree(recipe.DependencyGraph.Dependency)}
               />
@@ -159,4 +159,3 @@ export default function Cooking() {
     </>
   );
 }
-

@@ -9,9 +9,7 @@ import { DendogramController, EdgeLine } from "chartjs-chart-graph";
 Chart.register(DendogramController, EdgeLine, ...registerables);
 
 export function convertToTree(dependencyArray: number[][]) {
-  // input [[],[],[0,1],[],[0,4],[2,5,1,]]
-
-  console.log("dependecyArray: " + dependencyArray);
+  // console.log("dependecyArray: " + dependencyArray);
 
   const data = dependencyArray.map((d, i) => {
     return { label: "Step " + i, id: i };
