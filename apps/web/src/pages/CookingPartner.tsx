@@ -87,6 +87,9 @@ export default function Cooking() {
       setMyStep(myNewStep);
       sendUpdate(sessionID, payload.payload.finishedSteps, myNewStep, updateRecipeSteps);
     }
+    if(payload.payload.myStep >= recipe.Steps.length) {
+      setMyStep(recipe.Steps.length);
+    }
   }
 
   function getNewStep(newFinishedSteps: number[], partnerStep: number) {
