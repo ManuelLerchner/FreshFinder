@@ -151,6 +151,7 @@ export default function Cooking() {
               />
               <DepenencyGraph
                 tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                currentStep={myStep}
               />
             </>
           )}
