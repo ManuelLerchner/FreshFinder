@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import MealPicker from "./pages/MealPicker";
 import Configure from "./pages/Configure";
@@ -10,7 +10,6 @@ import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
 import JoinSession from "./pages/JoinSession";
 import Cookbook from "./pages/Cookbook";
-import Customize from "./pages/Customize";
 import CookingPartner from "./pages/CookingPartner";
 
 
@@ -19,16 +18,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Navigate to="/food-selection" />} />
           <Route path="/configure" element={<Configure />} />
           <Route path="/meal-picker" element={<MealPicker />} />
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking/:recipeID" element={<Cooking />} />
           <Route path="/cooking-partner/:ids" element={<CookingPartner />} />
-          <Route path="/customize/:recipeID" element={<Customize />} />
           <Route path="/join_session" element={<JoinSession />} />
           <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/cookbook" element={<Cookbook />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="*"
             element={

@@ -10,7 +10,6 @@ Chart.register(DendogramController, EdgeLine, ...registerables);
 
 export function convertToTree(dependencyArray: number[][]) {
   // console.log("dependecyArray: " + dependencyArray);
-
   const data = dependencyArray.map((d, i) => {
     return { label: "Step " + i, id: i };
   });
@@ -44,8 +43,10 @@ export function convertToTree(dependencyArray: number[][]) {
 }
 
 export default function DepenencyGraph({
+  currentStep,
   tree,
 }: {
+  currentStep: number;
   tree: {
     nodes: { label: string; id: number }[];
     edges: { source: number; target: number }[];
@@ -55,28 +56,61 @@ export default function DepenencyGraph({
 
   const canvasRef = React.useRef<any>(undefined);
 
-  const data: ChartConfiguration<"tree">["data"] = {
+  const data: ChartConfiguration<"dendogram">["data"] = {
     labels: tree.nodes.map((d) => d.label),
+
     datasets: [
       {
-        pointBackgroundColor: "steelblue",
         pointRadius: 5,
         data: tree.nodes,
         edges: tree.edges,
-      },
+      } as any,
     ],
   };
 
   useEffect(() => {
     chartRef.current = new Chart(canvasRef.current, {
       type: "dendrogram",
+      options: {
+        tree: {
+          orientation: "vertical",
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context: any) {
+                const label = context.dataset.data[context.dataIndex].label;
+                return label;
+              },
+            },
+          },
+        },
+      },
       data: data,
-    });
+    } as any);
 
     return () => {
       chartRef.current.destroy();
     };
   }, []);
+
+  const colorArray = tree.nodes.map((d, i) => {
+    if (i === currentStep) {
+      return "red";
+    }
+    if (i < currentStep) {
+      return "green";
+    }
+    return "grey";
+  });
+
+  if (chartRef.current) {
+    chartRef.current.data.datasets[0].pointBackgroundColor = colorArray;
+    chartRef.current.update();
+  }
 
   return <canvas ref={canvasRef} style={{ width: "100%" }} />;
 }

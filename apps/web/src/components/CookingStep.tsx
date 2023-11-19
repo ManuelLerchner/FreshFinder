@@ -17,14 +17,16 @@ export default function CookingStep({
   buttonText: string;
 }) {
   return (
-    <div className="bg-white border rounded-md shadow-lg  flex flex-row items-center justify-center max-w-3xl relative">
+    <div className="bg-white border rounded-md shadow-lg  flex flex-row items-center justify-center relative  max-w-3xl ">
       <div className="flex flex-row justify-center">
-        <img
-          src={url}
-          alt={"Step " + step_number}
-          className="max-w-[220px] h-52 rounded-md object-cover"
-        />
-        <div className="flex flex-col items-start justify-around mx-4 gap-2 p-2 max-w-[360px]">
+        <div>
+          <img
+            src={url}
+            alt={"Step " + step_number}
+            className="max-w-[220px] h-full rounded-md object-cover"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-around mx-4 gap-2 p-2">
           <h1 className="text-2xl font-bold underline ">
             {"Step " + step_number}
           </h1>

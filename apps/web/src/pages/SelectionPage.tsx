@@ -71,8 +71,8 @@ export default function SelectionPage() {
 
   return (
     <div className="flex flex-col items-center justify-center my-4 h-full">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <div className="relative flex h-96 w-full justify-center items-center">
+      <div className="flex flex-col items-center justify-center gap-4 p-4">
+        <div className="relative flex h-96 w-full justify-center items-center m-4">
           {questions?.map((question) => (
             <QuestionCard
               key={question.question}
@@ -114,20 +114,12 @@ export default function SelectionPage() {
                 order it.
               </p>
               <img
-                className="w-72 h-52 my-4 rounded-md object-contain"
+                className="w-72 h-52 my-4 rounded-md object-contain drop-shadow-lg"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Star_icon_stylized.svg/2153px-Star_icon_stylized.svg.png"
                 alt="Perfect food"
               />
             </div>
           )}
-        </div>
-
-        <div className="flex flex-row overflow-x-auto gap-2 max-w-xl no-scrollbar">
-          {Object.keys(localUser.userPreferences)
-            .filter((tag) => localUser.userPreferences[tag] > 0)
-            .map((tag) => (
-              <TagCard key={tag} tagname={tag} />
-            ))}
         </div>
 
         <h2 className="text-2xl font-bold my-4 self-start">Recommended Food</h2>
@@ -148,7 +140,7 @@ export default function SelectionPage() {
             />
 
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full"
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full shadow-md"
               onClick={async () => {
                 await placeOrder();
                 navigator("/success");
