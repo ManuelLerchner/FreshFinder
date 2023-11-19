@@ -8,7 +8,7 @@ This is our submission for the HackaTum2023 hackathon. It is based on the `Hello
 
 ## Technologies
 
-TODO
+see out Devpost at 
 
 ## Contributors
 
