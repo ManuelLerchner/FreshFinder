@@ -20,7 +20,7 @@ jobs:
         run: |
           cd apps/web
           npm ci
-          npm run build || true
+          PUBLIC_URL="/FreshFinder" npm run build || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
