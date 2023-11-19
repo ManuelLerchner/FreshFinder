@@ -8,7 +8,7 @@ This is our submission for the HackaTum2023 hackathon. It is based on the `Hello
 
 ## Technologies
 
-see out Devpost at 
+see out Devpost at https://devpost.com/software/freshfinder?ref_content=user-portfolio&ref_feature=in_progress
 
 ## Contributors
 
