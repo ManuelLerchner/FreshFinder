@@ -108,10 +108,11 @@ export default function Cooking() {
                     : "Next Step"
                 }
               />
-              <div className="max-w-xl flex  flex-col items-center justify-between p-4  rounded-xl bg-white shadow-xl">
+              <div className="max-w-xl w-full flex  flex-col items-center justify-between p-4  rounded-xl bg-white shadow-xl">
                 <h1 className="text-2xl font-bold">Roadmap</h1>
 
                 <DepenencyGraph
+                  currentStep={myStep}
                   tree={convertToTree(recipe.DependencyGraph.Dependency)}
                 />
               </div>

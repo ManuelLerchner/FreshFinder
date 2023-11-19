@@ -9,10 +9,6 @@ import { DendogramController, EdgeLine } from "chartjs-chart-graph";
 Chart.register(DendogramController, EdgeLine, ...registerables);
 
 export function convertToTree(dependencyArray: number[][]) {
-  // input [[],[],[0,1],[],[0,4],[2,5,1,]]
-
-  console.log("dependecyArray: " + dependencyArray);
-
   const data = dependencyArray.map((d, i) => {
     return { label: "Step " + i, id: i };
   });
@@ -46,8 +42,10 @@ export function convertToTree(dependencyArray: number[][]) {
 }
 
 export default function DepenencyGraph({
+  currentStep,
   tree,
 }: {
+  currentStep: number;
   tree: {
     nodes: { label: string; id: number }[];
     edges: { source: number; target: number }[];
@@ -62,11 +60,10 @@ export default function DepenencyGraph({
 
     datasets: [
       {
-        pointBackgroundColor: "steelblue",
         pointRadius: 5,
         data: tree.nodes,
         edges: tree.edges,
-      },
+      } as any,
     ],
   };
 
@@ -98,6 +95,21 @@ export default function DepenencyGraph({
       chartRef.current.destroy();
     };
   }, []);
+
+  const colorArray = tree.nodes.map((d, i) => {
+    if (i === currentStep) {
+      return "red";
+    }
+    if (i < currentStep) {
+      return "green";
+    }
+    return "grey";
+  });
+
+  if (chartRef.current) {
+    chartRef.current.data.datasets[0].pointBackgroundColor = colorArray;
+    chartRef.current.update();
+  }
 
   return <canvas ref={canvasRef} style={{ width: "100%" }} />;
 }

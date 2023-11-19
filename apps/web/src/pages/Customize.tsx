@@ -70,63 +70,69 @@ export default function Customize({
     <>
       <div className="flex flex-col items-center my-4">
         <h1 className="text-2xl font-bold">Customize Recipe</h1>
-        <div className="dropdown mt-16">
-          <label tabIndex={0} className="btn m-1">
-            Spicy
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 flex items-center justify-center"
-          >
-            <input
-              type="range"
-              min={-100}
-              max="100"
-              className="range"
-              step="50"
-              defaultValue="0"
-              onChange={(e) => {
-                setSpicy(e.target.value);
-              }}
-            />
-            <div className="w-full flex justify-between text-xs px-2">
-              <span>--</span>
-              <span>-</span>
-              <span>0</span>
-              <span>+</span>
-              <span>++</span>
-            </div>
-          </ul>
-        </div>
-        <div className="dropdown mt-16">
-          <label tabIndex={0} className="btn m-1">
-            Cheese
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 flex items-center justify-center"
-          >
-            <input
-              type="range"
-              min={-100}
-              max="100"
-              className="range"
-              step="50"
-              defaultValue="0"
-              onChange={(e) => {
-                setCheese(e.target.value);
-              }}
-            />
-            <div className="w-full flex justify-between text-xs px-2">
-              <span>--</span>
-              <span>-</span>
-              <span>0</span>
-              <span>+</span>
-              <span>++</span>
-            </div>
-          </ul>
-        </div>
-        <div className="dropdown mt-16">
+        <p className="text-lg my-2">
+          The recipe will be adjusted to your liking using AI.
+        </p>
+
+        <div className="flex flex-row items-center justify-center gap-4 my-16">
+          <div className="dropdown">
+            <label tabIndex={0} className="btn m-1">
+              Spicy
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 flex items-center justify-center"
+            >
+              <input
+                type="range"
+                min={-100}
+                max="100"
+                className="range"
+                step="50"
+                defaultValue="0"
+                onChange={(e) => {
+                  setSpicy(e.target.value);
+                }}
+              />
+              <div className="w-full flex justify-between text-xs px-2">
+                <span>--</span>
+                <span>-</span>
+                <span>0</span>
+                <span>+</span>
+                <span>++</span>
+              </div>
+            </ul>
+          </div>
+          <div className="dropdown">
+            <label tabIndex={0} className="btn m-1">
+              Cheese
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 flex items-center justify-center"
+            >
+              <input
+                type="range"
+                min={-100}
+                max="100"
+                className="range"
+                step="50"
+                defaultValue="0"
+                onChange={(e) => {
+                  setCheese(e.target.value);
+                }}
+              />
+              <div className="w-full flex justify-between text-xs px-2">
+                <span>--</span>
+                <span>-</span>
+                <span>0</span>
+                <span>+</span>
+                <span>++</span>
+              </div>
+            </ul>
+          </div>
+          </div>
+        <div className="dropdown">
           <label
             tabIndex={0}
             className="btn m-1 bg-green-300"
@@ -142,7 +148,7 @@ export default function Customize({
                 });
             }}
           >
-            Customize
+            Adjust Recipe
           </label>
         </div>
         {loading && (
