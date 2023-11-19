@@ -46,7 +46,7 @@ export default function Cookbook() {
           Start a new cooking session by selecting one of your recipes.
         </h2>
 
-        <div className="flex flex-row justify-center items-center my-8">
+        <div className="flex flex-col justify-center items-center my-8 gap-4 w-full">
           {recipes.map((recipe) => (
             <RecommendedFood
               key={recipe.RecipeId}
@@ -57,7 +57,7 @@ export default function Cookbook() {
                   <button
                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
                     onClick={() => {
-                      navigate("/cooking/"+recipe.RecipeId);
+                      navigate("/cooking/" + recipe.RecipeId);
                     }}
                   >
                     Create Session
@@ -65,7 +65,7 @@ export default function Cookbook() {
                   <button
                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
                     onClick={() => {
-                      navigate("/customize/"+recipe.RecipeId);
+                      navigate("/customize/" + recipe.RecipeId);
                     }}
                   >
                     Customize

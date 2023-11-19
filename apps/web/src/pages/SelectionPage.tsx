@@ -70,9 +70,9 @@ export default function SelectionPage() {
   const navigator = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center my-4 h-full">
-      <div className="flex flex-col items-center justify-center gap-4 p-4">
-        <div className="relative flex h-96 w-full justify-center items-center m-4">
+    <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center gap-4 px-4">
+        <div className="relative flex h-80 w-full justify-center items-center m-4">
           {questions?.map((question) => (
             <QuestionCard
               key={question.question}
@@ -122,34 +122,37 @@ export default function SelectionPage() {
           )}
         </div>
 
-        <h2 className="text-2xl font-bold my-4 self-start">Recommended Food</h2>
+        <div className="flex flex-col items-center justify-center gap-4 p-4 w-full">
+          {recommendedFood && (
+            <>
+              <div className="text-2xl font-bold self-start">
+                Optimal meal choice
+              </div>
+              <RecommendedFood
+                name={recommendedFood.title}
+                image={recommendedFood.url}
+                body={
+                  <div className="flex flex-wrap gap-2 justify-start items-center max-h-40   overflow-y-auto">
+                    {recommendedFood.tags.map((tag) => (
+                      <TagCard key={tag} tagname={tag} />
+                    ))}
+                  </div>
+                }
+                onDiscard={() => {}}
+              />
 
-        {recommendedFood && (
-          <>
-            <RecommendedFood
-              name={recommendedFood.title}
-              image={recommendedFood.url}
-              body={
-                <div className="flex flex-wrap gap-2 justify-start items-center max-h-40   overflow-y-auto">
-                  {recommendedFood.tags.map((tag) => (
-                    <TagCard key={tag} tagname={tag} />
-                  ))}
-                </div>
-              }
-              onDiscard={() => {}}
-            />
-
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full shadow-md"
-              onClick={async () => {
-                await placeOrder();
-                navigator("/success");
-              }}
-            >
-              Order recommended food
-            </button>
-          </>
-        )}
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:scale-[102%] w-full shadow-md"
+                onClick={async () => {
+                  await placeOrder();
+                  navigator("/success");
+                }}
+              >
+                Order recommended food
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
