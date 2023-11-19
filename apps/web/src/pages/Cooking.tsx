@@ -180,6 +180,7 @@ export default function Cooking() {
                 <DepenencyGraph
                   currentStep={myStep}
                   tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                  finishedSteps={finishedSteps}
                 />
               </div>
             </div>

@@ -59,10 +59,9 @@ export default function Cooking() {
           console.log("Received first Update");
           const newFinishedSteps: number[] = payload.payload.finishedSteps;
           setFinishedSteps(newFinishedSteps);
-          let newMyStep: number = payload.payload.myStep + 1;
-          while (newFinishedSteps.includes(newMyStep)) {
-            newMyStep = newMyStep + 1;
-          }
+          const newPartnerStep = payload.payload.myStep;
+          setPartnerMyStep(newPartnerStep);
+          let newMyStep = getNewStep(newFinishedSteps, newPartnerStep);
           if (newMyStep >= recipe.recipeImages.images.length - 1) return;
           setMyStep(newMyStep);
           channel.send({
@@ -84,13 +83,13 @@ export default function Cooking() {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
     if(myStep < 0){
-      let myNewStep = getNewStep(payload.payload.finishedSteps)
+      let myNewStep = getNewStep(payload.payload.finishedSteps, payload.payload.myStep)
       setMyStep(myNewStep);
       sendUpdate(sessionID, payload.payload.finishedSteps, myNewStep, updateRecipeSteps);
     }
   }
 
-  function getNewStep(newFinishedSteps: number[]) {
+  function getNewStep(newFinishedSteps: number[], partnerStep: number) {
     if(!recipe) return -1;
     console.log("Getting new Step");
     console.log(newFinishedSteps.length);
@@ -100,12 +99,13 @@ export default function Cooking() {
     for (let i = 0; i < recipe.DependencyGraph.Dependency.length; i++) {
       if(partnerStep === i || newFinishedSteps.includes(i)) continue;
       if(recipe.DependencyGraph.Dependency[i].length === 1 && recipe.DependencyGraph.Dependency[i][0] === i) {
-        if(newFinishedSteps.includes(recipe.DependencyGraph.Dependency[i][0])){
+        if(newFinishedSteps.includes(i)){
           continue;
         } 
         return i;
       }
     }
+    console.log("No self dependency found");
     for (let i = 0; i < recipe.DependencyGraph.Dependency.length; i++) {
       if(partnerStep === i|| newFinishedSteps.includes(i)) continue;
       let allDependenciesDone = true;
@@ -140,7 +140,7 @@ export default function Cooking() {
                 onFinished={() => {
                   const newFinishedSteps = [...finishedSteps, myStep];
                   setFinishedSteps(newFinishedSteps);
-                  let newMyStep = getNewStep(newFinishedSteps);
+                  let newMyStep = getNewStep(newFinishedSteps, partnerStep);
                   if(myStep >= recipe.Steps.length) return;
                   setMyStep(newMyStep);
                   if(sessionID ==="") return;
@@ -159,6 +159,7 @@ export default function Cooking() {
                 <DepenencyGraph
                   currentStep={myStep}
                   tree={convertToTree(recipe.DependencyGraph.Dependency)}
+                  finishedSteps={finishedSteps}
                 />
               </div>
             </>

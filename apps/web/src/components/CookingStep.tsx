@@ -22,13 +22,13 @@ export default function CookingStep({
         <div>
           <img
             src={url}
-            alt={"Step " + step_number}
+            alt={"Step:"}
             className="max-w-[220px] h-full rounded-md object-cover"
           />
         </div>
         <div className="flex flex-col items-start justify-around m-4 gap-2 p-2">
           <h1 className="text-2xl font-bold underline ">
-            {"Step " + step_number}
+            {"Step:"}
           </h1>
           <p className="text-lg my-2">{description}</p>
           <button
