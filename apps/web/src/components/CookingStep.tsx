@@ -9,7 +9,7 @@ export default function CookingStep({
   buttonDisabled,
   buttonText,
 }: {
-  step_number: number;
+  step_number: string;
   url: string;
   description: string;
   onFinished: () => void;

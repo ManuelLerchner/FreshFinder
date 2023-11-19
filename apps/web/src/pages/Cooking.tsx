@@ -12,7 +12,7 @@ export default function Cooking() {
 
   const [finishedSteps, setFinishedSteps] = useState<number[]>([]);
   const [myStep, setMyStep] = useState<number>(0);
-  const [partnerStep, setPartnerMyStep] = useState<number>(0);
+  const [partnerStep, setPartnerMyStep] = useState<number>(-1);
   const [sessionID, setSessionID] = useState<string>("");
 
   const [recipe, setRecipe] = useState<{
@@ -68,9 +68,45 @@ export default function Cooking() {
     );
   }
   
-  function updateRecipeSteps(payload: any) {
+  function updateRecipeSteps( payload:any) {
     setFinishedSteps(payload.payload.finishedSteps);
     setPartnerMyStep(payload.payload.myStep);
+    if(myStep < 0){
+      let myNewStep = getNewStep(payload.payload.finishedSteps)
+      setMyStep(myNewStep);
+      sendUpdate(sessionID, payload.payload.finishedSteps, myNewStep, updateRecipeSteps);
+    }
+  }
+
+  function getNewStep(newFinishedSteps: number[]) {
+    if(!recipe) return -1;
+    console.log("Getting new Step");
+    console.log(newFinishedSteps.length);
+    console.log(recipe.Steps.length);
+    if(newFinishedSteps.length >= recipe.Steps.length) return recipe.Steps.length+1;
+    // Check for self dependency and return the step number since it can always be done
+    for (let i = 0; i < recipe.DependencyGraph.Dependency.length; i++) {
+      if(partnerStep === i || newFinishedSteps.includes(i)) continue;
+      if(recipe.DependencyGraph.Dependency[i].length === 1 && recipe.DependencyGraph.Dependency[i][0] === i) {
+        if(newFinishedSteps.includes(recipe.DependencyGraph.Dependency[i][0])){
+          continue;
+        } 
+        return i;
+      }
+    }
+    for (let i = 0; i < recipe.DependencyGraph.Dependency.length; i++) {
+      if(partnerStep === i|| newFinishedSteps.includes(i)) continue;
+      let allDependenciesDone = true;
+      for(let j = 0; j < recipe.DependencyGraph.Dependency[i].length; j++){
+        if(!newFinishedSteps.includes(recipe.DependencyGraph.Dependency[i][j])){
+          allDependenciesDone = false;
+          break;
+        }
+      }
+      if(allDependenciesDone) return i;
+    }
+    console.log("No new Step found");
+    return -1;
   }
 
   function startSynchronisation(sessionIDTemp: string) {
@@ -119,7 +155,7 @@ export default function Cooking() {
                 Start Cooking - SessionID: {sessionID}
               </h1>
               <CookingStep
-                step_number={myStep}
+                step_number={myStep < 0? 'Waiting...' : myStep >= recipe.Steps.length ? 'Finished!' : myStep.toString()}
                 description={recipe.Steps[myStep]}
                 url={
                   recipe.recipeImages.images[
@@ -129,35 +165,15 @@ export default function Cooking() {
                 onFinished={() => {
                   const newFinishedSteps = [...finishedSteps, myStep];
                   setFinishedSteps(newFinishedSteps);
-                  let newMyStep = myStep + 1;
-                  while (newFinishedSteps.includes(newMyStep) || newMyStep == partnerStep) {
-                    newMyStep = newMyStep + 1;
-                  }
-                  if(myStep >= recipe.recipeImages.images.length - 1) return;
+                  let newMyStep = getNewStep(newFinishedSteps);
+                  console.log("Setting my Step to: ", newMyStep);
                   setMyStep(newMyStep);
                   if(sessionID ==="") return;
-                  const channel = supabase.channel(sessionID);
-                  console.log("Sending Update");
-                  channel.subscribe((status) => {
-                    if (status !== "SUBSCRIBED") {
-                      return null;
-                    }
-                    channel.send({
-                      type: "broadcast",
-                      event: "updateSteps",
-                      payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
-                    });
-                  });
-                  console.log("Listening for Updates");
-                  channel.on(
-                    'broadcast',
-                    { event: 'updateSteps' },
-                    (payload) => {updateRecipeSteps(payload)},
-                  );
+                  sendUpdate(sessionID, newFinishedSteps, newMyStep, updateRecipeSteps);
                 }}
-                buttonDisabled={myStep >= recipe.recipeImages.images.length - 1}
+                buttonDisabled={myStep >= recipe.Steps.length}
                 buttonText={
-                  myStep >= recipe.recipeImages.images.length - 1
+                  myStep >= recipe.Steps.length
                     ? "Finished!"
                     : "Next Step"
                 }
@@ -187,3 +203,23 @@ export default function Cooking() {
   );
 }
 
+function sendUpdate(sessionID: string, newFinishedSteps: number[], newMyStep: number, updateRecipeSteps: (payload: any) => void) {
+  const channel = supabase.channel(sessionID);
+  console.log("Sending Update");
+  channel.subscribe((status) => {
+    if (status !== "SUBSCRIBED") {
+      return null;
+    }
+    channel.send({
+      type: "broadcast",
+      event: "updateSteps",
+      payload: { finishedSteps: newFinishedSteps, myStep: newMyStep },
+    });
+  });
+  console.log("Listening for Updates");
+  channel.on(
+    'broadcast',
+    { event: 'updateSteps' },
+    (payload) => { updateRecipeSteps(payload); }
+  );
+}

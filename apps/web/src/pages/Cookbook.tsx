@@ -62,14 +62,6 @@ export default function Cookbook() {
                   >
                     Create Session
                   </button>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
-                    onClick={() => {
-                      navigate("/customize/"+recipe.RecipeId);
-                    }}
-                  >
-                    Customize
-                  </button>
                 </div>
               }
               onDiscard={() => {}}
