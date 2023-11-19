@@ -53,15 +53,22 @@ export default function Cookbook() {
               name={recipe.title}
               image={recipe.url}
               body={
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center gap-4">
                   <button
                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
                     onClick={() => {
-                      const recipeID = 0;
-                      navigate("/cooking/"+recipeID);
+                      navigate("/cooking/"+recipe.RecipeId);
                     }}
                   >
                     Create Session
+                  </button>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md hover:scale-[102%]"
+                    onClick={() => {
+                      navigate("/customize/"+recipe.RecipeId);
+                    }}
+                  >
+                    Customize
                   </button>
                 </div>
               }

@@ -1,9 +1,4 @@
 const { Configuration, OpenAIApi } = require("openai");
 
-const supabaseUrl = 'https://api.openai.com/v1/engines/davinci/completions'
-const openAiKey = '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'
-
-export const configuration = new Configuration({
-    apiKey: openAiKey
-  });
-
+export const openaiURL = 'https://api.openai.com/v1/chat/completions'
+export const openAiKey = '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'

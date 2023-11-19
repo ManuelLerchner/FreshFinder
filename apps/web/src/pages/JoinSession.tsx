@@ -7,10 +7,14 @@ export default function JoinSession() {
 
   const navigate = useNavigate();
   const [sessionID, setsessionID] = useState("");
+  const [recipeID, setrecipeID] = useState("");
+
 
   // Simple function to log any messages we receive
   function updateRecipeSteps( payload: any) {
-   console.log(payload)
+    setrecipeID(payload.recipeID)
+    console.log("Received new RecipeID: ", recipeID)
+    navigate("/cooking/" + recipeID);
   }
 
   return (
@@ -36,9 +40,7 @@ export default function JoinSession() {
           }
           channel.subscribe(async (status) => {
             if (status !== 'SUBSCRIBED') { return }
-          
-            const presenceTrackStatus = await channel.track(userStatus)
-            console.log(presenceTrackStatus)
+             await channel.track(userStatus)
           })
           channel.on(
             'broadcast',

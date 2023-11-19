@@ -6,11 +6,6 @@ export default function Cooking() {
   
   const { recipeID } = useParams();
 
-  function adaptClientData(payload: any) {
-    // Adapt the client data here
-       
-  }
-
   function startSynchronisation() {
     const channel = supabase.channel(sessionID);
     channel.subscribe((status) => {
@@ -36,6 +31,7 @@ export default function Cooking() {
     // Add a listener until someone joins the session
     channel
       .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+        console.log("Recognized Partner")
         startSynchronisation();
       })
       .subscribe()

@@ -10,6 +10,7 @@ import Cooking from "./pages/Cooking";
 import OrderSuccesfull from "./pages/OrderSuccesfull";
 import JoinSession from "./pages/JoinSession";
 import Cookbook from "./pages/Cookbook";
+import Customize from "./pages/Customize";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/meal-picker" element={<MealPicker />} />
           <Route path="/food-selection" element={<SelectionPage />} />
           <Route path="/cooking/:recipeID" element={<Cooking />} />
+          <Route path="/customize/:recipeID" element={<Customize />} />
           <Route path="/join_session" element={<JoinSession />} />
           <Route path="/success" element={<OrderSuccesfull />} />
           <Route path="/cookbook" element={<Cookbook />} />
