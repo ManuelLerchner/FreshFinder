@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../components/SupabaseClient";
 import CookingStep from "../components/CookingStep";
 import DepenencyGraph, { convertToTree } from "../components/DepenencyGraph";
-import Customize from "./Customize";
+import Customize from "../components/Customize";
 
 export default function Cooking() {
   const { recipeID } = useParams();

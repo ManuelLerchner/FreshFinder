@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { supabase } from "../components/SupabaseClient";
-import { openAiKey, openaiURL } from "../components/OpenAIClient";
+import { supabase } from "./SupabaseClient";
+import { openAiKey, openaiURL } from "./OpenAIClient";
 import axios from "axios";
 
 export default function Customize({
@@ -131,7 +131,7 @@ export default function Customize({
               </div>
             </ul>
           </div>
-          </div>
+        </div>
         <div className="dropdown">
           <label
             tabIndex={0}
