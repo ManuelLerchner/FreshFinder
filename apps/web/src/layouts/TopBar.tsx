@@ -2,7 +2,7 @@ import React from "react";
 
 export default function TopBar() {
   return (
-    <header className="bg-gray-800 text-white px-2 py-2">
+    <header className="bg-gray-800 text-white px-2 py-2 shadow-2xl">
       <div className="flex justify-between">
         <div className="flex items-center">
           <a className="flex flex-row items-center font-bold text-xl" href="/">
