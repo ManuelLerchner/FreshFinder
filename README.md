@@ -4,7 +4,7 @@ This is our submission for the HackaTum2023 hackathon. It is based on the `Hello
 
 # Installation
 1. Set up npm and node.js
-2. run npm run start in the webfolder
+2. run 'npm run start' in the webfolder
 
 ## Technologies
 
